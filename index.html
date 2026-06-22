@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移動停損停利策略</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --border: #252a3a;
+    --text: #e2e6f0;
+    --muted: #6b7694;
+    --muted2: #4a5270;
+    --red: #e85555;
+    --green: #3dba7a;
+    --gold: #d4a843;
+    --blue: #4a9eff;
+    --red-dim: rgba(232,85,85,0.08);
+    --green-dim: rgba(61,186,122,0.08);
+    --gold-dim: rgba(212,168,67,0.08);
+    --blue-dim: rgba(74,158,255,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px 16px 60px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--blue-dim);
+    border: 1px solid rgba(74,158,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+
+  /* Input card */
+  .input-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .input-row:last-child { border-bottom: none; }
+
+  .input-info { flex: 1; }
+
+  .input-label {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .input-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .input-field {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    width: 120px;
+    text-align: right;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-field:focus {
+    border-color: var(--blue);
+  }
+
+  .input-field::placeholder {
+    color: var(--muted2);
+    font-weight: 400;
+  }
+
+  /* Slider row */
+  .slider-row {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .slider-row:last-child { border-bottom: none; }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .slider-label {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .slider-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .slider-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .slider-value.red { color: var(--red); }
+  .slider-value.green { color: var(--green); }
+
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--blue);
+    cursor: pointer;
+  }
+
+  input[type=range].red-slider::-webkit-slider-thumb { background: var(--red); }
+  input[type=range].green-slider::-webkit-slider-thumb { background: var(--green); }
+
+  /* Result card */
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .result-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .result-row:last-child { border-bottom: none; }
+
+  .result-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-red { background: var(--red); }
+  .dot-green { background: var(--green); }
+  .dot-gold { background: var(--gold); }
+
+  .result-info { flex: 1; }
+
+  .result-name {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .result-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .result-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .result-pnl {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .val-red { color: var(--red); }
+  .val-green { color: var(--green); }
+  .val-gold { color: var(--gold); }
+
+  /* Price table */
+  .price-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .pt-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pt-header span {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .pt-header span:not(:first-child) { text-align: right; }
+
+  .pt-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+
+  .pt-row:last-child { border-bottom: none; }
+
+  .pt-base {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .pt-stop, .pt-profit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .pt-stop { color: var(--red); }
+  .pt-profit { color: var(--green); }
+
+  /* Rules */
+  .rules-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .rule-item {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+
+  .rule-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .rule-main {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .rule-explain {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.55;
+  }
+
+  /* Checklist */
+  .checklist {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .check-item:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--muted2);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .check-main {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .check-explain {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  /* Weekly review */
+  .review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .review-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .review-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .review-item {
+    font-size: 12px;
+    color: var(--text);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .review-item:last-child { border-bottom: none; }
+
+  /* Notice */
+  .notice {
+    background: var(--gold-dim);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+
+  .notice strong { color: var(--gold); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--muted2);
+    line-height: 1.8;
+  }
+
+  /* Empty state */
+  .empty {
+    color: var(--muted2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">移動停損停利策略</div>
+  <h1>個人化槓桿 ETF 策略表</h1>
+  <p>填入你的持倉資料，自動計算停損與停利價位<br>適用於槓桿型 ETF 的波段操作管理</p>
+</div>
+
+<!-- Step 1: Input -->
+<div class="section-label">第一步：填入你的持倉</div>
+<div class="input-card">
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">股票代號</div>
+      <div class="input-hint">例如 00631L</div>
+    </div>
+    <input class="input-field" id="ticker" type="text" placeholder="00631L" maxlength="10">
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">持倉股數</div>
+      <div class="input-hint">你目前持有幾股</div>
+    </div>
+    <input class="input-field" id="shares" type="number" placeholder="1000" min="1">
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">平均成本</div>
+      <div class="input-hint">每股買入均價（元）</div>
+    </div>
+    <input class="input-field" id="cost" type="number" placeholder="35.46" step="0.01" min="0.01">
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">目前最高收盤價</div>
+      <div class="input-hint">持有以來的收盤最高點</div>
+    </div>
+    <input class="input-field" id="high" type="number" placeholder="41.32" step="0.01" min="0.01">
+  </div>
+</div>
+
+<!-- Step 2: Sliders -->
+<div class="section-label">第二步：設定你的幅度</div>
+<div class="input-card">
+  <div class="slider-row">
+    <div class="slider-header">
+      <div>
+        <div class="slider-label">停損幅度</div>
+        <div class="slider-hint">從最高收盤價回落多少就出場</div>
+      </div>
+      <div class="slider-value red" id="stopPct">15%</div>
+    </div>
+    <input type="range" class="red-slider" id="stopSlider" min="5" max="30" value="15" step="1">
+  </div>
+  <div class="slider-row">
+    <div class="slider-header">
+      <div>
+        <div class="slider-label">停利幅度</div>
+        <div class="slider-hint">從最高收盤價上漲多少就出場</div>
+      </div>
+      <div class="slider-value green" id="profitPct">10%</div>
+    </div>
+    <input type="range" class="green-slider" id="profitSlider" min="5" max="40" value="10" step="1">
+  </div>
+</div>
+
+<!-- Step 3: Results -->
+<div class="section-label">第三步：你的停損停利價位</div>
+<div class="result-card">
+  <div class="result-row">
+    <div class="result-dot dot-gold"></div>
+    <div class="result-info">
+      <div class="result-name">停損硬底線</div>
+      <div class="result-desc">不低於成本價出場，確保不虧損</div>
+    </div>
+    <div>
+      <div class="result-val val-gold" id="r-floor">—</div>
+      <div class="result-pnl" id="r-floor-pnl"></div>
+    </div>
+  </div>
+  <div class="result-row">
+    <div class="result-dot dot-red"></div>
+    <div class="result-info">
+      <div class="result-name">移動停損線</div>
+      <div class="result-desc">跌破此價位 → 全數出清</div>
+    </div>
+    <div>
+      <div class="result-val val-red" id="r-stop">—</div>
+      <div class="result-pnl" id="r-stop-pnl"></div>
+    </div>
+  </div>
+  <div class="result-row">
+    <div class="result-dot dot-green"></div>
+    <div class="result-info">
+      <div class="result-name">移動停利線</div>
+      <div class="result-desc">漲破此價位 → 全數出清</div>
+    </div>
+    <div>
+      <div class="result-val val-green" id="r-profit">—</div>
+      <div class="result-pnl" id="r-profit-pnl"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scenario Table -->
+<div class="section-label">情境試算（最高收盤價變動時）</div>
+<div class="price-table" id="scenarioTable">
+  <div class="pt-header">
+    <span>最高收盤價</span>
+    <span>停損線</span>
+    <span>停利線</span>
+  </div>
+  <div class="pt-row">
+    <div class="pt-base empty" colspan="3" style="text-align:center;color:var(--muted2);">填入資料後自動產生</div>
+    <div class="pt-stop"></div>
+    <div class="pt-profit"></div>
+  </div>
+</div>
+
+<!-- Movement Rules -->
+<div class="section-label">移動規則說明</div>
+<div class="rules-card">
+  <div class="rule-item">
+    <div class="rule-icon">📈</div>
+    <div>
+      <div class="rule-main">收盤價創新高</div>
+      <div class="rule-explain">停損線與停利線同步往上移動。趨勢越強，保護越高，獲利空間也越大。</div>
+    </div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon">➡️</div>
+    <div>
+      <div class="rule-main">收盤價下跌或持平</div>
+      <div class="rule-explain">兩條線維持不動，繼續觀察。這讓你在正常回檔時不會被洗出場。</div>
+    </div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon">⚡</div>
+    <div>
+      <div class="rule-main">觸及任一條線</div>
+      <div class="rule-explain">全數出清，當日執行，不猶豫。情緒是最大的敵人，規則幫你做決定。</div>
+    </div>
+  </div>
+  <div class="rule-item">
+    <div class="rule-icon">🔒</div>
+    <div>
+      <div class="rule-main">硬底線保護</div>
+      <div class="rule-explain">停損線永遠不低於你的成本價。就算市場劇烈波動，本金有一道最後防線。</div>
+    </div>
+  </div>
+</div>
+
+<!-- Entry Conditions -->
+<div class="section-label">加碼進場條件（三者同時成立才考慮）</div>
+<div class="checklist">
+  <div class="check-item">
+    <div class="check-box"></div>
+    <div>
+      <div class="check-main">股價出現收斂整理形態</div>
+      <div class="check-explain">不是急漲噴出，而是盤整縮量、K棒實體縮小的健康型態。急漲追進風險最高。</div>
+    </div>
+  </div>
+  <div class="check-item">
+    <div class="check-box"></div>
+    <div>
+      <div class="check-main">RSI 回落至 65 以下</div>
+      <div class="check-explain">RSI 超過 70 代表過熱，乖離太大。等 RSI 收斂才代表短線熱度退燒、風險降低。</div>
+    </div>
+  </div>
+  <div class="check-item">
+    <div class="check-box"></div>
+    <div>
+      <div class="check-main">能寫出明確的進場理由</div>
+      <div class="check-explain">寫下：為什麼現在進？停損設在哪？目標是多少？寫不出來就是感覺，不是策略。</div>
+    </div>
+  </div>
+</div>
+
+<!-- Weekly Review -->
+<div class="section-label">每週檢視清單</div>
+<div class="review-grid">
+  <div class="review-card">
+    <div class="review-title">基本面</div>
+    <div class="review-item">出口數據趨勢</div>
+    <div class="review-item">半導體月營收</div>
+    <div class="review-item">AI 資本支出週期</div>
+    <div class="review-item">總經有無轉向</div>
+  </div>
+  <div class="review-card">
+    <div class="review-title">技術面</div>
+    <div class="review-item">RSI 是否收斂</div>
+    <div class="review-item">均線多頭排列</div>
+    <div class="review-item">成交量是否健康</div>
+    <div class="review-item">型態是否收斂</div>
+  </div>
+</div>
+
+<div class="notice">
+  <strong>持倉期限：</strong>無硬性出場日期。每週至少檢視一次，依基本面與技術面滾動調整策略。
+</div>
+
+<div class="footer">
+  移動停損停利策略 · 適用槓桿 ETF 波段操作<br>
+  本文件僅供個人策略管理參考，不構成投資建議
+</div>
+
+<script>
+  const fields = ['ticker','shares','cost','high'];
+  fields.forEach(id => {
+    document.getElementById(id).addEventListener('input', update);
+  });
+
+  document.getElementById('stopSlider').addEventListener('input', function() {
+    document.getElementById('stopPct').textContent = this.value + '%';
+    update();
+  });
+
+  document.getElementById('profitSlider').addEventListener('input', function() {
+    document.getElementById('profitPct').textContent = this.value + '%';
+    update();
+  });
+
+  function fmt(n) {
+    return isNaN(n) ? '—' : n.toFixed(2);
+  }
+
+  function fmtPnl(price, cost, shares) {
+    if (!cost || !shares || isNaN(price)) return '';
+    const diff = (price - cost) * shares;
+    const pct = ((price - cost) / cost * 100).toFixed(1);
+    const sign = diff >= 0 ? '+' : '';
+    return sign + Math.round(diff).toLocaleString() + ' (' + sign + pct + '%)';
+  }
+
+  function update() {
+    const cost = parseFloat(document.getElementById('cost').value);
+    const high = parseFloat(document.getElementById('high').value);
+    const shares = parseFloat(document.getElementById('shares').value);
+    const stopPct = parseFloat(document.getElementById('stopSlider').value) / 100;
+    const profitPct = parseFloat(document.getElementById('profitSlider').value) / 100;
+
+    if (!cost || !high) {
+      document.getElementById('r-floor').textContent = '—';
+      document.getElementById('r-stop').textContent = '—';
+      document.getElementById('r-profit').textContent = '—';
+      document.getElementById('r-floor-pnl').textContent = '';
+      document.getElementById('r-stop-pnl').textContent = '';
+      document.getElementById('r-profit-pnl').textContent = '';
+      renderTable(null, null, null, null, stopPct, profitPct);
+      return;
+    }
+
+    const rawStop = high * (1 - stopPct);
+    const actualStop = Math.max(rawStop, cost);
+    const profit = high * (1 + profitPct);
+
+    document.getElementById('r-floor').textContent = fmt(cost);
+    document.getElementById('r-stop').textContent = fmt(actualStop);
+    document.getElementById('r-profit').textContent = fmt(profit);
+
+    if (shares) {
+      document.getElementById('r-floor-pnl').textContent = fmtPnl(cost, cost, shares);
+      document.getElementById('r-stop-pnl').textContent = fmtPnl(actualStop, cost, shares);
+      document.getElementById('r-profit-pnl').textContent = fmtPnl(profit, cost, shares);
+    }
+
+    renderTable(high, cost, shares, actualStop, stopPct, profitPct);
+  }
+
+  function renderTable(currentHigh, cost, shares, currentStop, stopPct, profitPct) {
+    const table = document.getElementById('scenarioTable');
+
+    if (!currentHigh) {
+      table.innerHTML = `
+        <div class="pt-header">
+          <span>最高收盤價</span>
+          <span>停損線</span>
+          <span>停利線</span>
+        </div>
+        <div class="pt-row">
+          <div class="pt-base empty" style="color:var(--muted2);">填入資料後自動產生</div>
+          <div class="pt-stop"></div>
+          <div class="pt-profit"></div>
+        </div>`;
+      return;
+    }
+
+    const scenarios = [
+      currentHigh,
+      parseFloat((currentHigh * 1.1).toFixed(0)),
+      parseFloat((currentHigh * 1.2).toFixed(0)),
+      parseFloat((currentHigh * 1.35).toFixed(0)),
+    ];
+
+    let rows = `
+      <div class="pt-header">
+        <span>最高收盤價</span>
+        <span>停損線</span>
+        <span>停利線</span>
+      </div>`;
+
+    scenarios.forEach((h, i) => {
+      const rawS = h * (1 - stopPct);
+      const s = cost ? Math.max(rawS, cost) : rawS;
+      const p = h * (1 + profitPct);
+      const isCurrent = i === 0;
+      rows += `
+        <div class="pt-row" ${isCurrent ? 'style="background:rgba(74,158,255,0.06)"' : ''}>
+          <div class="pt-base">${h.toFixed(2)}${isCurrent ? ' <span style="font-size:10px;color:var(--blue)">現在</span>' : ''}</div>
+          <div class="pt-stop">${s.toFixed(2)}</div>
+          <div class="pt-profit">${p.toFixed(2)}</div>
+        </div>`;
+    });
+
+    table.innerHTML = rows;
+  }
+
+  update();
+</script>
+</body>
+</html>
