@@ -4,231 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LITE 研究報告 · 易讀版</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
-
-  :root {
-    --bg:        #f6f7f9;
-    --card:      #ffffff;
-    --card2:     #f0f2f5;
-    --ink:       #1a1f2b;
-    --ink2:      #3d4658;
-    --muted:     #6a7488;
-    --line:      #e2e6ec;
-    --line2:     #d3d9e2;
-    --blue:      #1f6feb;
-    --blue-bg:   #e8f1ff;
-    --green:     #157f4a;
-    --green-bg:  #e4f6ec;
-    --red:       #c0392b;
-    --red-bg:    #fdecea;
-    --amber:     #9a6a00;
-    --amber-bg:  #fbf1d9;
-    --purple:    #6b3fd4;
-    --purple-bg: #efe9fd;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-    font-size: 16px;
-    line-height: 1.75;
-    padding: 24px 18px 72px;
-    max-width: 720px;
-    margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .nav { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
-  .nav a {
-    flex: 1; min-width: 64px; text-align: center; padding: 9px 7px;
-    border-radius: 10px; border: 1px solid var(--line2);
-    background: var(--card); color: var(--ink2);
-    font-size: 13px; font-weight: 600; text-decoration: none;
-    transition: all 0.15s;
-  }
-  .nav a.active { color: #fff; background: var(--blue); border-color: var(--blue); }
-  .nav a:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
-
-  .header {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 16px; padding: 26px 24px; margin-bottom: 18px;
-    box-shadow: 0 1px 3px rgba(20,30,50,0.04);
-  }
-  .header .badge {
-    display: inline-block; background: var(--purple-bg); color: var(--purple);
-    border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 700;
-    letter-spacing: 0.06em; margin-bottom: 14px;
-  }
-  .header h1 { font-size: 27px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
-  .header h1 .tk { font-family: 'JetBrains Mono', monospace; color: var(--blue); }
-  .header .sub { font-size: 15px; color: var(--ink2); font-weight: 500; }
-  .header .desc { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
-  .asof {
-    display: inline-block; margin-top: 12px; font-size: 12.5px; font-weight: 600;
-    color: var(--blue); background: var(--blue-bg); border-radius: 8px; padding: 5px 12px;
-  }
-
-  .banner {
-    border-radius: 14px; padding: 20px 22px; margin-bottom: 16px;
-    background: var(--red-bg); border: 1px solid #f3c4bd;
-  }
-  .banner .tag {
-    font-size: 13px; font-weight: 700; color: var(--red);
-    letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-  }
-  .banner .tag::before { content: '🔥'; font-size: 16px; }
-  .banner h2 { font-size: 21px; font-weight: 700; color: #8a2618; margin-bottom: 8px; }
-  .banner p { font-size: 14.5px; color: #7a2a1c; line-height: 1.75; }
-  .banner b { font-weight: 700; }
-
-  .compare {
-    border-radius: 12px; padding: 15px 18px; margin-bottom: 22px;
-    background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a;
-    font-size: 13.5px; line-height: 1.7;
-  }
-  .compare b { font-weight: 700; }
-
-  .sec {
-    display: flex; align-items: center; gap: 11px;
-    margin: 34px 0 14px; font-size: 19px; font-weight: 700; color: var(--ink);
-  }
-  .sec .n {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 30px; height: 30px; border-radius: 9px;
-    background: var(--blue); color: #fff;
-    font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
-    flex-shrink: 0;
-  }
-
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .stat {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; padding: 15px 16px;
-  }
-  .stat .k { font-size: 12.5px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
-  .stat .v { font-size: 21px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.01em; }
-  .stat .v.green { color: var(--green); }
-  .stat .v.red { color: var(--red); }
-  .stat .v.amber { color: var(--amber); }
-  .stat .h { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
-  .stat .h .up { color: var(--green); font-weight: 700; }
-  .stat .h .dn { color: var(--red); font-weight: 700; }
-
-  .q {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 13px; padding: 18px 20px; margin-bottom: 13px;
-    box-shadow: 0 1px 2px rgba(20,30,50,0.03);
-  }
-  .q-top { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
-  .q-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700;
-    color: var(--blue); background: var(--blue-bg); padding: 3px 9px; border-radius: 6px;
-  }
-  .q-title { font-size: 17px; font-weight: 700; color: var(--ink); }
-  .q-hint { font-size: 13px; color: var(--muted); margin-bottom: 11px; }
-  .q-body { font-size: 15px; color: var(--ink2); line-height: 1.85; }
-  .q-body b { color: var(--ink); font-weight: 700; }
-  .q-body .g { color: var(--green); font-weight: 700; }
-  .q-body .r { color: var(--red); font-weight: 700; }
-  .q-body .w { color: var(--amber); font-weight: 700; }
-  .q-body ul { margin: 8px 0 0; padding-left: 4px; list-style: none; }
-  .q-body li { position: relative; padding-left: 22px; margin-bottom: 6px; }
-  .q-body li::before {
-    content: '›'; position: absolute; left: 6px; top: -1px;
-    color: var(--blue); font-weight: 700; font-size: 17px;
-  }
-
-  .val {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 13px; overflow: hidden; margin-bottom: 14px;
-  }
-  .val table { width: 100%; border-collapse: collapse; }
-  .val th {
-    background: var(--card2); text-align: left;
-    font-size: 12px; font-weight: 700; color: var(--muted);
-    letter-spacing: 0.04em; padding: 12px 16px; border-bottom: 1px solid var(--line);
-  }
-  .val th:nth-child(2), .val th:nth-child(3) { text-align: center; }
-  .val td { padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  .val tr:last-child td { border-bottom: none; }
-  .val .scn { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
-  .val .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .d-bear { background: var(--red); } .d-base { background: var(--amber); } .d-bull { background: var(--green); }
-  .val .price { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
-  .val .price.red { color: var(--red); } .val .price.amber { color: var(--amber); } .val .price.green { color: var(--green); }
-  .val .prob { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; color: var(--ink2); }
-  .val .note { font-size: 13px; color: var(--muted); line-height: 1.55; }
-
-  .result {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 13px; padding: 6px 20px; margin-bottom: 14px;
-  }
-  .result .row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 13px 0; border-bottom: 1px solid var(--line);
-  }
-  .result .row:last-child { border-bottom: none; }
-  .result .rk { font-size: 14.5px; color: var(--ink2); font-weight: 500; }
-  .result .rv { font-family: 'JetBrains Mono', monospace; font-size: 19px; font-weight: 700; }
-  .result .rv.red { color: var(--red); } .result .rv.amber { color: var(--amber); } .result .rv.green { color: var(--green); }
-
-  .callout {
-    border-radius: 12px; padding: 16px 18px; margin-top: 14px;
-    font-size: 14px; line-height: 1.75;
-  }
-  .callout.purple { background: var(--purple-bg); border: 1px solid #d6c7f5; color: #4a2ba0; }
-  .callout.red { background: var(--red-bg); border: 1px solid #f3c4bd; color: #8a2618; }
-  .callout.blue { background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a; }
-  .callout.green { background: var(--green-bg); border: 1px solid #bfe6cd; color: #0f5c37; }
-  .callout b { font-weight: 700; }
-  .callout .title { font-weight: 700; font-size: 15px; margin-bottom: 5px; display: block; }
-
-  .postag {
-    display: inline-block; background: var(--purple); color: #fff;
-    padding: 6px 16px; border-radius: 20px; font-size: 15px; font-weight: 700;
-  }
-
-  .src { background: var(--card); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; }
-  .src .tier { padding: 15px 18px; border-bottom: 1px solid var(--line); }
-  .src .tier:last-child { border-bottom: none; }
-  .src .th { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
-  .src .b { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
-  .b1 { color: var(--green); background: var(--green-bg); }
-  .b2 { color: var(--amber); background: var(--amber-bg); }
-  .b3 { color: var(--red); background: var(--red-bg); }
-  .src .tt { font-size: 15px; font-weight: 700; }
-  .src .bd { font-size: 13.5px; color: var(--ink2); line-height: 1.75; }
-  .src code {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px;
-    background: var(--card2); padding: 2px 7px; border-radius: 5px; color: var(--ink);
-    border: 1px solid var(--line);
-  }
-
-  .footer {
-    text-align: center; margin-top: 36px; font-size: 12.5px;
-    color: var(--muted); line-height: 1.9;
-  }
-
-  .chartcard { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 12px 12px 8px; box-shadow: 0 1px 2px rgba(20,30,50,.03); }
-  .chartnote { font-size: 11.5px; color: var(--muted); margin: 8px 4px 2px; line-height: 1.5; }
-  @media (max-width: 480px) {
-    body { font-size: 15px; }
-    .grid { grid-template-columns: 1fr; }
-    .header h1 { font-size: 23px; }
-    .val .note { display: none; }
-    .val th:nth-child(4) { display: none; }
-  }
-
-  @media print {
-    .nav { display: none; }
-    body { background: #fff; max-width: 100%; }
-    .q, .header, .val, .result, .src, .stat { box-shadow: none; }
-  }
-</style>
+<link rel="stylesheet" href="assets/report.css">
 </head>
 <body>
 
@@ -250,10 +26,10 @@
   <span class="asof">資料截至 2026/08/07 · 最新財報 Q3 FY26 · 下次財報 8/11 盤後</span>
 </div>
 
-<div class="banner">
+<div class="banner hot">
   <div class="tag">研究結論</div>
   <h2>好公司 · 危險價位 · 財報前(8/11)不宜追高</h2>
-  <p>生意本身極強:Q3 營收 <b>+90%</b>、EML 雷射處於「稀缺紅利」、NVIDIA 入股 $2B 背書。但股價一年內狂漲 <b>+709%</b> 到 <b>$890</b>,估值極高(P/S ~17x),而且明天(8/11)就要財報。機率加權合理價約 <b>$869</b> ≈ 現價,<b>風險報酬比僅約 0.7:1(下檔大於上檔)</b>。<b>公司值得長期追蹤,但這是拋物線後、財報前的高風險價位——不宜追高,寧可等回檔或財報後。</b></p>
+  <p>生意本身極強:Q3 營收 <b>+90%</b>、EML 雷射處於「稀缺紅利」、NVIDIA 入股 $2B 背書。但股價一年內狂漲 <b>+709%</b> 到 <b>$890</b>,估值極高(P/S ~17x),而且明天(8/11)就要財報。機率加權合理價約 <b>$869</b> ≈ 現價,<b>報酬風險比僅約 0.7:1(下檔大於上檔)</b>。<b>公司值得長期追蹤,但這是拋物線後、財報前的高風險價位——不宜追高,寧可等回檔或財報後。</b></p>
 </div>
 
 <div class="compare">
@@ -445,12 +221,12 @@
   <div class="row"><span class="rk">機率加權合理價</span><span class="rv">$869</span></div>
   <div class="row"><span class="rk">目前股價(8/7)</span><span class="rv">$890.17</span></div>
   <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv red">-2.4%</span></div>
-  <div class="row"><span class="rk">風險報酬比(上檔 ÷ 下檔)</span><span class="rv red">0.70 : 1</span></div>
+  <div class="row"><span class="rk">報酬風險比(上檔 ÷ 下檔)</span><span class="rv red">0.70 : 1</span></div>
 </div>
 
 <div class="callout red">
   <span class="title">為什麼是「不宜追高」?</span>
-  加權合理價 $869 已<b>略低於</b>現價,預期差轉負;更關鍵的是<b>上檔 +$260、下檔 -$370,風險報酬比僅 0.70:1(賠率大於賺率)</b>。生意再好,拋物線 +709% 之後、又逢明天財報,<b>追高的風險明顯大於報酬</b>。理想作法:等財報後波動塵埃落定、或等明顯回檔再評估。
+  加權合理價 $869 已<b>略低於</b>現價,預期差轉負;更關鍵的是<b>上檔 +$260、下檔 -$370,報酬風險比僅 0.70:1(賠率大於賺率)</b>。生意再好,拋物線 +709% 之後、又逢明天財報,<b>追高的風險明顯大於報酬</b>。理想作法:等財報後波動塵埃落定、或等明顯回檔再評估。
 </div>
 
 <!-- 3 倉位 -->
@@ -461,7 +237,7 @@
   <div class="row"><span class="rk">建議部位傾向</span><span class="postag">小 · 勿追高</span></div>
 </div>
 <div class="callout red">
-  <b>生意一流,但價位與時機不利,部位要小。</b>公司體質配得上一般部位,但<b>拋物線 +709%、估值 ~17x P/S、風險報酬比 0.7:1、又逢 8/11 財報</b>——這是「好公司、壞價位」的典型。若真要參與,只宜<b>小額試探、分批,並保留財報後與回檔時的加碼空間</b>,切忌財報前重壓追高。
+  <b>生意一流,但價位與時機不利,部位要小。</b>公司體質配得上一般部位,但<b>拋物線 +709%、估值 ~17x P/S、報酬風險比 0.7:1、又逢 8/11 財報</b>——這是「好公司、壞價位」的典型。若真要參與,只宜<b>小額試探、分批,並保留財報後與回檔時的加碼空間</b>,切忌財報前重壓追高。
 </div>
 
 <!-- 4 資訊來源 -->
@@ -483,7 +259,7 @@
 
 <div class="callout red" style="margin-top:22px">
   <span class="title">⚠️ 風險提醒</span>
-  LITE 雖已獲利、EML 地位關鍵,但屬<b>極高 beta、拋物線走勢</b>的股票:52 週狂漲 +709%、估值極高(P/S ~17x),<b>風險報酬比目前偏向下檔(0.7:1)</b>,且 <b>8/11 盤後財報</b>可能帶來單日數十 % 級跳動。稀缺紅利收斂、對手(Coherent)競爭、AI 資本支出循環皆為變數。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司 Q3 FY2026 財報 / SEC 文件為準,8/7 收盤價 $890.17。
+  LITE 雖已獲利、EML 地位關鍵,但屬<b>極高 beta、拋物線走勢</b>的股票:52 週狂漲 +709%、估值極高(P/S ~17x),<b>報酬風險比目前偏向下檔(0.7:1)</b>,且 <b>8/11 盤後財報</b>可能帶來單日數十 % 級跳動。稀缺紅利收斂、對手(Coherent)競爭、AI 資本支出循環皆為變數。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司 Q3 FY2026 財報 / SEC 文件為準,8/7 收盤價 $890.17。
 </div>
 
 <div class="footer">

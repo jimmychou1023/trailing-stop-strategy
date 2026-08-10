@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  個股報告範本(易讀版 · 12 問框架)
+  新增一檔的步驟:
+   1. 複製本檔 → 命名 <ticker>-report.html(小寫,例如 nvda-report.html)
+   2. 全檔搜尋取代占位符:{{TICKER}} {{COMPANY}} {{EXCHANGE}} {{SECTOR}}
+      {{ONELINE}} {{DATE}}  以及各數字/文字
+   3. banner 變體三選一:class="banner wait"(觀望)/ "banner hot"(危險)
+      / "banner good"(正向)
+   4. TradingView symbol 改成 {{EXCHANGE}}:{{TICKER}}(例 NASDAQ:NVDA)
+   5. 導覽列:在本檔與其他所有頁的 <nav> 各加一個 <a>,並到
+      stocks.html 加一張卡、compare-report.html 加一欄
+   6. 樣式一律吃 assets/report.css,不要在頁面內寫 CSS(共用單一來源)
+  ============================================================
+-->
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TICKER}} 研究報告 · 易讀版</title>
+<link rel="stylesheet" href="assets/report.css">
+</head>
+<body>
+
+<!-- 導覽列:複製其他頁的 <nav>,把本檔設 class="active" -->
+<div class="nav">
+  <a href="stocks.html">總覽</a>
+  <a href="aeva-report.html">AEVA</a>
+  <a href="cohr-report.html">COHR</a>
+  <a href="lite-report.html">LITE</a>
+  <a href="mrvl-report.html">MRVL</a>
+  <a href="avgo-report.html">AVGO</a>
+  <a href="{{TICKER_LC}}-report.html" class="active">{{TICKER}}</a>
+  <a href="compare-report.html">對照</a>
+</div>
+
+<div class="header">
+  <span class="badge">一頁研究報告 · 易讀版</span>
+  <h1><span class="tk">{{TICKER}}</span>　{{COMPANY}}</h1>
+  <div class="sub">{{SECTOR}} · {{EXCHANGE}} 上市</div>
+  <div class="desc">用「大叔美股筆記」的 12 問框架研究。資料截至 <b>{{DATE}}</b>,最新財報為 <b>{{LATEST_Q}}</b>;下一份財報 <b>{{NEXT_EARNINGS}}</b>。</div>
+  <span class="asof">資料截至 {{DATE}} · 下次財報 {{NEXT_EARNINGS}}</span>
+</div>
+
+<!-- 變體三選一:banner wait / banner hot / banner good -->
+<div class="banner good">
+  <div class="tag">研究結論</div>
+  <h2>{{VERDICT_HEADLINE}}</h2>
+  <p>{{VERDICT_BODY}}</p>
+</div>
+
+<!-- 選填:在五檔中的定位對照 -->
+<div class="compare">
+  <b>在同類中的定位:</b>{{POSITIONING_NOTE}}
+</div>
+
+<!-- 0 基本資料 -->
+<div class="sec"><span class="n">0</span>基本資料快照 <span style="font-size:12px;color:var(--muted);font-weight:600;">· {{DATE}}</span></div>
+<div class="grid">
+  <div class="stat"><div class="k">目前股價</div><div class="v">{{PRICE}}</div><div class="h">{{PRICE_NOTE}}</div></div>
+  <div class="stat"><div class="k">市值</div><div class="v">{{MKTCAP}}</div><div class="h">{{MKTCAP_NOTE}}</div></div>
+  <div class="stat"><div class="k">52 週區間</div><div class="v amber">{{RANGE}}</div><div class="h">{{RANGE_NOTE}}</div></div>
+  <div class="stat"><div class="k">最新季營收</div><div class="v green">{{REV}}</div><div class="h">{{REV_NOTE}}</div></div>
+  <div class="stat"><div class="k">毛利率</div><div class="v green">{{GM}}</div><div class="h">{{GM_NOTE}}</div></div>
+  <div class="stat"><div class="k">獲利 / EPS</div><div class="v green">{{EPS}}</div><div class="h">{{EPS_NOTE}}</div></div>
+  <div class="stat"><div class="k">現金 / 資產負債</div><div class="v green">{{CASH}}</div><div class="h">{{CASH_NOTE}}</div></div>
+  <div class="stat"><div class="k">下次財報</div><div class="v amber">{{NEXT_EARNINGS}}</div><div class="h">{{FY_NOTE}}</div></div>
+</div>
+
+<!-- 走勢圖(即時,TradingView) -->
+<div class="sec"><span class="n">📈</span>股價走勢(近 12 個月)· 即時</div>
+<div class="chartcard">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+    {"symbol":"{{EXCHANGE}}:{{TICKER}}","width":"100%","height":230,"locale":"zh_TW","dateRange":"12M","colorTheme":"light","isTransparent":true,"autosize":false,"chartOnly":false,"noTimeScale":false}
+    </script>
+  </div>
+  <div class="chartnote">即時圖表由 TradingView 提供,反映最新市價(可能與本頁「資料截至 {{DATE}}」的數字不同)。若圖表未顯示,多為網路 / 瀏覽器擋第三方元件所致。</div>
+</div>
+
+<!-- 1 12 問(每題:填 q-body) -->
+<div class="sec"><span class="n">1</span>一頁研究表 · 12 問</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Business</span><span class="q-title">1 · 公司靠什麼賺錢?</span></div>
+  <div class="q-hint">賣什麼、誰付錢、客戶為什麼換不掉它。</div><div class="q-body">{{A1}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">TAM</span><span class="q-title">2 · 市場還能成長多久?</span></div>
+  <div class="q-hint">TAM 是判斷成長空間,不是簡報用的。</div><div class="q-body">{{A2}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Moat</span><span class="q-title">3 · 為什麼對手搶不走?</span></div>
+  <div class="q-hint">好到別人無法取代,才叫護城河。</div><div class="q-body">{{A3}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Revenue</span><span class="q-title">4 · 成長來自哪裡?</span></div>
+  <div class="q-hint">價格還是數量?一次性還是 recurring?</div><div class="q-body">{{A4}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Margin</span><span class="q-title">5 · 利潤率是否改善?</span></div>
+  <div class="q-hint">Gross → Operating → FCF 一路看營業槓桿。</div><div class="q-body">{{A5}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">FCF</span><span class="q-title">6 · 現金有沒有真的進來?</span></div>
+  <div class="q-hint">EPS 是會計結果,現金流較難長期演戲。</div><div class="q-body">{{A6}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Balance Sheet</span><span class="q-title">7 · 能撐過景氣下行嗎?</span></div>
+  <div class="q-hint">中大型循環股尤其要看資產負債表。</div><div class="q-body">{{A7}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Competition</span><span class="q-title">8 · 最大競爭者是誰?</span></div>
+  <div class="q-hint">用對手財報交叉驗證你這家的說法。</div><div class="q-body">{{A8}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Catalyst</span><span class="q-title">9 · 未來 12–24 個月的催化劑?</span></div>
+  <div class="q-hint">把催化劑與時點寫下來。</div><div class="q-body">{{A9}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Expectations</span><span class="q-title">10 · 股價已經反映什麼?</span></div>
+  <div class="q-hint">Expectations Gap 預期差才是重點。</div><div class="q-body">{{A10}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Valuation</span><span class="q-title">11 · Bear / Base / Bull 各值多少?</span></div>
+  <div class="q-hint">三情境比單一目標價有意義,詳見下方第 2 區。</div><div class="q-body">{{A11}}</div></div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Thesis Break</span><span class="q-title">12 · 什麼事代表我錯了?</span></div>
+  <div class="q-hint">進場前就寫好,跌 40% 後大腦會自動編故事。</div><div class="q-body">{{A12}}</div></div>
+
+<!-- 2 估值 -->
+<div class="sec"><span class="n">2</span>三情境估值 · 機率加權(示意,依現價校準)</div>
+<div class="val">
+  <table>
+    <thead><tr><th>情境</th><th>合理價</th><th>機率</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><span class="scn"><span class="dot d-bear"></span>Bear</span></td><td class="price red">{{BEAR}}</td><td class="prob">{{BEAR_P}}</td><td class="note">{{BEAR_NOTE}}</td></tr>
+      <tr><td><span class="scn"><span class="dot d-base"></span>Base</span></td><td class="price amber">{{BASE}}</td><td class="prob">{{BASE_P}}</td><td class="note">{{BASE_NOTE}}</td></tr>
+      <tr><td><span class="scn"><span class="dot d-bull"></span>Bull</span></td><td class="price green">{{BULL}}</td><td class="prob">{{BULL_P}}</td><td class="note">{{BULL_NOTE}}</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 加權合理價 = (Bear×P + Base×P + Bull×P) ; 預期差 = (加權-現價)/現價
+     報酬風險比 = (Bull-現價) ÷ (現價-Bear)  ← 越高越有利 -->
+<div class="result">
+  <div class="row"><span class="rk">機率合計</span><span class="rv">100%</span></div>
+  <div class="row"><span class="rk">機率加權合理價</span><span class="rv">{{WEIGHTED}}</span></div>
+  <div class="row"><span class="rk">目前股價({{DATE}})</span><span class="rv">{{PRICE}}</span></div>
+  <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv green">{{GAP}}</span></div>
+  <div class="row"><span class="rk">報酬風險比(上檔 ÷ 下檔)</span><span class="rv green">{{RR}}</span></div>
+</div>
+
+<div class="callout blue">
+  <span class="title">怎麼讀這個結果?</span>{{RESULT_NOTE}}
+</div>
+
+<!-- 3 倉位 -->
+<div class="sec"><span class="n">3</span>倉位大小</div>
+<div class="result">
+  <div class="row"><span class="rk">資產負債表能撐過下行?</span><span class="rv green" style="font-size:15px">{{BS_LABEL}}</span></div>
+  <div class="row"><span class="rk">研究信心 / 完成度</span><span class="rv green" style="font-size:15px">{{CONVICTION}}</span></div>
+  <div class="row"><span class="rk">建議部位傾向</span><span class="postag">{{POSITION}}</span></div>
+</div>
+<div class="callout green">{{POSITION_NOTE}}</div>
+
+<!-- 4 資訊來源 -->
+<div class="sec"><span class="n">4</span>資訊來源三級制</div>
+<div class="src">
+  <div class="tier"><div class="th"><span class="b b1">第一級</span><span class="tt">公司官方(先看)</span></div>
+    <div class="bd"><code>10-K</code> <code>10-Q</code> <code>Earnings Release</code> <code>法說 Transcript</code> <code>{{IR_URL}}</code> —— {{SRC1_NOTE}}</div></div>
+  <div class="tier"><div class="th"><span class="b b2">第二級</span><span class="tt">產業交叉驗證</span></div>
+    <div class="bd">{{SRC2_NOTE}}</div></div>
+  <div class="tier"><div class="th"><span class="b b3">第三級</span><span class="tt">新聞(更新論點,不是建立論點)</span></div>
+    <div class="bd">看到利多 / 利空先問:有沒有改變 Revenue / Margin / TAM / Market Share / Valuation?{{SRC3_NOTE}}</div></div>
+</div>
+
+<div class="callout red" style="margin-top:22px">
+  <span class="title">⚠️ 風險提醒</span>{{RISK_NOTE}}本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司最新財報 / SEC 文件為準。
+</div>
+
+<div class="footer">
+  一頁研究報告 · {{TICKER}} 易讀版 · 資料截至 {{DATE}}<br>
+  框架整理自《你不是缺股票資訊,你是缺一套研究股票的方法》—— 大叔美股筆記<br>
+  即時股價圖由 TradingView 提供 · 本工具僅供個人研究流程管理,不構成投資建議
+</div>
+
+</body>
+</html>
