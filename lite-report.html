@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEVA 研究報告 · 易讀版</title>
+<title>LITE 研究報告 · 易讀版</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
 
@@ -44,7 +44,7 @@
 
   .nav { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
   .nav a {
-    flex: 1; min-width: 90px; text-align: center; padding: 10px 12px;
+    flex: 1; min-width: 78px; text-align: center; padding: 10px 8px;
     border-radius: 10px; border: 1px solid var(--line2);
     background: var(--card); color: var(--ink2);
     font-size: 13px; font-weight: 600; text-decoration: none;
@@ -73,17 +73,24 @@
   }
 
   .banner {
-    border-radius: 14px; padding: 20px 22px; margin-bottom: 22px;
-    background: var(--amber-bg); border: 1px solid #f0d9a0;
+    border-radius: 14px; padding: 20px 22px; margin-bottom: 16px;
+    background: var(--red-bg); border: 1px solid #f3c4bd;
   }
   .banner .tag {
-    font-size: 13px; font-weight: 700; color: var(--amber);
+    font-size: 13px; font-weight: 700; color: var(--red);
     letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
   }
-  .banner .tag::before { content: '⏳'; font-size: 16px; }
-  .banner h2 { font-size: 21px; font-weight: 700; color: #7a5400; margin-bottom: 8px; }
-  .banner p { font-size: 14.5px; color: #6b4e12; line-height: 1.75; }
+  .banner .tag::before { content: '🔥'; font-size: 16px; }
+  .banner h2 { font-size: 21px; font-weight: 700; color: #8a2618; margin-bottom: 8px; }
+  .banner p { font-size: 14.5px; color: #7a2a1c; line-height: 1.75; }
   .banner b { font-weight: 700; }
+
+  .compare {
+    border-radius: 12px; padding: 15px 18px; margin-bottom: 22px;
+    background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a;
+    font-size: 13.5px; line-height: 1.7;
+  }
+  .compare b { font-weight: 700; }
 
   .sec {
     display: flex; align-items: center; gap: 11px;
@@ -109,6 +116,7 @@
   .stat .v.amber { color: var(--amber); }
   .stat .h { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
   .stat .h .up { color: var(--green); font-weight: 700; }
+  .stat .h .dn { color: var(--red); font-weight: 700; }
 
   .q {
     background: var(--card); border: 1px solid var(--line);
@@ -133,10 +141,6 @@
     content: '›'; position: absolute; left: 6px; top: -1px;
     color: var(--blue); font-weight: 700; font-size: 17px;
   }
-  .new-pill {
-    font-size: 10.5px; font-weight: 700; color: #fff; background: var(--green);
-    padding: 1px 7px; border-radius: 10px; letter-spacing: 0.03em;
-  }
 
   .val {
     background: var(--card); border: 1px solid var(--line);
@@ -154,7 +158,7 @@
   .val .scn { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
   .val .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .d-bear { background: var(--red); } .d-base { background: var(--amber); } .d-bull { background: var(--green); }
-  .val .price { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; }
+  .val .price { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
   .val .price.red { color: var(--red); } .val .price.amber { color: var(--amber); } .val .price.green { color: var(--green); }
   .val .prob { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; color: var(--ink2); }
   .val .note { font-size: 13px; color: var(--muted); line-height: 1.55; }
@@ -179,6 +183,7 @@
   .callout.purple { background: var(--purple-bg); border: 1px solid #d6c7f5; color: #4a2ba0; }
   .callout.red { background: var(--red-bg); border: 1px solid #f3c4bd; color: #8a2618; }
   .callout.blue { background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a; }
+  .callout.green { background: var(--green-bg); border: 1px solid #bfe6cd; color: #0f5c37; }
   .callout b { font-weight: 700; }
   .callout .title { font-weight: 700; font-size: 15px; margin-bottom: 5px; display: block; }
 
@@ -227,37 +232,41 @@
 
 <div class="nav">
   <a href="research.html">研究框架</a>
-  <a href="aeva-report.html" class="active">AEVA</a>
+  <a href="aeva-report.html">AEVA</a>
   <a href="cohr-report.html">COHR</a>
-  <a href="lite-report.html">LITE</a>
+  <a href="lite-report.html" class="active">LITE</a>
   <a href="index.html">停損停利</a>
 </div>
 
 <div class="header">
   <span class="badge">一頁研究報告 · 易讀版</span>
-  <h1><span class="tk">AEVA</span>　Aeva Technologies</h1>
-  <div class="sub">FMCW 4D LiDAR-on-chip 感測晶片公司 · Nasdaq 上市</div>
-  <div class="desc">用「大叔美股筆記」的 12 問框架研究這檔車用光達股。本版已納入 <b>2026/08/05 發布的 Q2 FY2026 財報與法說會</b>——公司同步宣布跨入 <b>AI 資料中心光學連接</b> 新業務、CFO 異動,股價因此大幅重評價。</div>
-  <span class="asof">資料截至 2026/08/07 · 已涵蓋 Q2 FY26 法說會</span>
+  <h1><span class="tk">LITE</span>　Lumentum Holdings</h1>
+  <div class="sub">光學元件 / EML 雷射晶片 / AI 資料中心光學 / 3D 感測 · Nasdaq 上市</div>
+  <div class="desc">用「大叔美股筆記」的 12 問框架研究這檔 <b>AI 雷射晶片核心供應商</b>。資料截至 <b>2026/08/07</b>,最新財報為 <b>Q3 FY2026</b>(2026/05);下一份 <b>Q4 FY2026 財報預定 8/11 盤後</b>公布——就在明天,是最近的重大事件。</div>
+  <span class="asof">資料截至 2026/08/07 · 最新財報 Q3 FY26 · 下次財報 8/11 盤後</span>
 </div>
 
 <div class="banner">
   <div class="tag">研究結論</div>
-  <h2>偏貴 · 耐心等待(股價已大漲反映樂觀)</h2>
-  <p>Q2 財報後股價從 $19.61 一路重評價到 <b>$25.26</b>(YTD 約 +69%),主要靠新宣布的 <b>AI 資料中心光學連接</b> 題材。機率加權合理價約 <b>$23</b> 已略低於現價,預期差約 <b>-9%</b>、風險報酬比僅約 <b>1.0:1</b> 不對稱。故事更性感、但價格也更貴 —— 這是<b>押注 2027–2028 量產與光學放量的高風險股</b>,建議<b>等回檔或等訂單落地,且部位要小</b>。</p>
+  <h2>好公司 · 危險價位 · 財報前(8/11)不宜追高</h2>
+  <p>生意本身極強:Q3 營收 <b>+90%</b>、EML 雷射處於「稀缺紅利」、NVIDIA 入股 $2B 背書。但股價一年內狂漲 <b>+709%</b> 到 <b>$890</b>,估值極高(P/S ~17x),而且明天(8/11)就要財報。機率加權合理價約 <b>$869</b> ≈ 現價,<b>風險報酬比僅約 0.7:1(下檔大於上檔)</b>。<b>公司值得長期追蹤,但這是拋物線後、財報前的高風險價位——不宜追高,寧可等回檔或財報後。</b></p>
+</div>
+
+<div class="compare">
+  <b>三檔 AI 光學對照:</b><b>AEVA</b> = 尚未獲利的故事股(選擇權);<b>COHR</b> = 已獲利龍頭、垂直整合、估值偏高;<b>LITE</b> = 已獲利、EML 雷射晶片稀缺王者,但<b>股價最拋物線(+709%)、估值最貴、beta 最高</b>。COHR / LITE 都被 NVIDIA 入股 $2B。LITE 的問題不是生意,而是<b>價格已經跑太快</b>。
 </div>
 
 <!-- 0 基本資料 -->
 <div class="sec"><span class="n">0</span>基本資料快照 <span style="font-size:12px;color:var(--muted);font-weight:600;">· 2026/08/07</span></div>
 <div class="grid">
-  <div class="stat"><div class="k">目前股價</div><div class="v">$25.26</div><div class="h"><span class="up">↑</span> Q2 財報後大漲,YTD 約 +69%</div></div>
-  <div class="stat"><div class="k">市值(約)</div><div class="v">≈ $2.4B</div><div class="h">增資後股數略增</div></div>
-  <div class="stat"><div class="k">52 週區間</div><div class="v amber">$8.8–31.3</div><div class="h">現價回到區間中上緣</div></div>
-  <div class="stat"><div class="k">Q2 FY26 營收</div><div class="v green">$6.1M</div><div class="h">年增 +11.3%,小幅優於預期</div></div>
-  <div class="stat"><div class="k">Q2 毛利率</div><div class="v green">35.7%</div><div class="h">由 -49% 轉正,重大改善</div></div>
-  <div class="stat"><div class="k">現金 / 流動性</div><div class="v green">$302.9M</div><div class="h">含 Q2 完成的 $115M 增資</div></div>
-  <div class="stat"><div class="k">FY2026 營收指引</div><div class="v">≈ $33M</div><div class="h">FY2027 目標約 $74M</div></div>
-  <div class="stat"><div class="k">Q2 GAAP 營業虧損</div><div class="v red">-$34.6M</div><div class="h">仍在燒錢,尚未獲利</div></div>
+  <div class="stat"><div class="k">目前股價</div><div class="v">$890.17</div><div class="h"><span class="up">↑</span> 52 週約 +709%,拋物線走勢</div></div>
+  <div class="stat"><div class="k">市值</div><div class="v">$69.3B</div><div class="h">大型股</div></div>
+  <div class="stat"><div class="k">52 週區間</div><div class="v amber">$106–$1,086</div><div class="h">自低點漲逾 8 倍後回落</div></div>
+  <div class="stat"><div class="k">Q3 FY26 營收</div><div class="v green">$808M</div><div class="h">年增 +90%,創紀錄</div></div>
+  <div class="stat"><div class="k">200G EML 環比</div><div class="v green">+128%</div><div class="h">EML 出貨量估 Dec 季再 +50%</div></div>
+  <div class="stat"><div class="k">Q4 FY26 營收指引</div><div class="v green">$960M–1.01B</div><div class="h">環比續增</div></div>
+  <div class="stat"><div class="k">NVIDIA 入股</div><div class="v">$2.0B</div><div class="h">+ 多年雷射採購承諾(3/2 宣布)</div></div>
+  <div class="stat"><div class="k">下次財報</div><div class="v red">8/11 盤後</div><div class="h">Q4 FY26,市場估 EPS ~$2.97</div></div>
 </div>
 
 <!-- 1 12 問 -->
@@ -267,9 +276,10 @@
   <div class="q-top"><span class="q-tag">Business</span><span class="q-title">1 · 公司靠什麼賺錢?</span></div>
   <div class="q-hint">賣什麼、誰付錢、客戶為什麼換不掉它。</div>
   <div class="q-body">
-    Aeva 賣的是 <b>FMCW(調頻連續波)4D 光達感測晶片與感知軟體</b>。跟主流「飛時測距(ToF)」不同,它每一個點都能<b>同時量到距離＋瞬時速度</b>(都卜勒),抗陽光與互相干擾、量測距離更遠。<br>
-    Q2 起多了<b>第二條腿</b>:把同一套矽光子 / 高功率光源技術延伸到 <b>AI 資料中心的光學連接(Optical Connectivity)</b>。<br>
-    付錢的是<b>車廠、工業客戶、以及新的資料中心客戶</b>:Daimler Truck、歐洲前十大乘用車 OEM、NVIDIA DRIVE Hyperion、工業(SICK)、檢測(Nikon),加上一家光學引擎大廠的聯合開發協議(JDA)。
+    Lumentum 是<b>光學元件與雷射晶片大廠</b>,兩大板塊:<br>
+    <b>① Cloud &amp; Networking</b>(主力、爆發成長):AI 資料中心用<b>EML 雷射晶片</b>、光收發模組、ROADM、pump 雷射等。EML 是 800G / 1.6T / 3.2T 光模組的<b>關鍵心臟零件</b>。<br>
+    <b>② Industrial Tech</b>:工業雷射、3D 感測(消費電子臉部辨識等)。<br>
+    付錢的是<b>雲端巨頭 / AI 資料中心與光模組廠</b>(透過 NVIDIA 生態與模組客戶)、消費電子、工業客戶。換不掉的原因:<span class="g">高階 EML / InP 雷射產能極度稀缺</span>,少數 western 廠能做,NVIDIA 更直接<b>入股 $2B</b> 並簽多年採購承諾鎖料。
   </div>
 </div>
 
@@ -277,8 +287,8 @@
   <div class="q-top"><span class="q-tag">TAM</span><span class="q-title">2 · 市場還能成長多久?</span></div>
   <div class="q-hint">TAM 是判斷成長空間,不是簡報用的。</div>
   <div class="q-body">
-    車用光達市場預估從 <b>2026 年約 $17 億</b> 成長到 <b>2033 年約 $113 億</b>(CAGR ≈ 31%)。Q2 新增的 <b>AI 資料中心光學連接</b>,理論上打開一個<span class="g">遠比車用感測更大的 TAM</span>——這是股價大漲的主因。<br>
-    但要冷靜:<span class="w">Aeva 在這兩塊的實際市佔都還接近零</span>,光學連接業務要 2027 下半年才試部署、2028 才量產。TAM 變大了,但仍是「選擇權」,不是保證。
+    每一顆 AI 光模組都需要 EML 雷射,速率越高(800G→1.6T→3.2T)所需雷射數量與規格越高——<b>是「賣鏟子」的位置</b>。AI 叢集光學市場 2026 年估增逾 +60%。<br>
+    Lumentum 管理層預期 <b>EML 出貨量到 2026/12 季再成長逾 50%</b>,並已切入 1.6T、3.2T 世代。<span class="g">需求能見度高、且供給受限</span>,是這輪 AI 光學最受惠的環節之一。風險同樣在 AI 資本支出的循環性。
   </div>
 </div>
 
@@ -286,8 +296,8 @@
   <div class="q-top"><span class="q-tag">Moat</span><span class="q-title">3 · 為什麼對手搶不走?</span></div>
   <div class="q-hint">好到別人無法取代,才叫護城河。</div>
   <div class="q-body">
-    潛在護城河:<b>FMCW + 矽光子晶片整合 + 高功率光源</b>(速度資訊、抗干擾、可微縮降成本,同一技術可跨車用與資料中心)＋ <b>專利</b> ＋ 卡進車廠平台的 <b>切換成本</b>。<br>
-    但要誠實:車用 ToF 陣營(Hesai、RoboSense、華為)已量產領先;AI 光學連接領域也有眾多光通訊大廠。Aeva 的護城河<span class="w">目前仍是「技術差異化」,尚未被大規模量產獲利驗證</span>。技術好 ≠ 生意好,這仍是最大問號。
+    護城河<span class="g">真實且被獲利驗證</span>:<b>高階 EML / InP 雷射的技術與產能稀缺性</b>(能做的廠屈指可數)、<b>與 NVIDIA / 模組客戶深度綁定</b>(入股 + 採購承諾)、<b>規模與良率</b>。這是「稀缺紅利」——供不應求時,議價力與毛利同步走高。<br>
+    誠實面:<span class="w">主要對手 Coherent 同樣強、同樣被 NVIDIA 入股</span>;產能稀缺一旦被大幅擴產(含中國廠)追上,紅利會收斂。護城河偏「產能與技術領先」,需持續投資維持。
   </div>
 </div>
 
@@ -295,8 +305,8 @@
   <div class="q-top"><span class="q-tag">Revenue</span><span class="q-title">4 · 成長來自哪裡?</span></div>
   <div class="q-hint">價格還是數量?一次性還是 recurring?</div>
   <div class="q-body">
-    <b>Q2 FY26 營收 $6.1M(YoY +11.3%)</b>,小幅優於 $6.0M 市場預期。細看結構:<span class="w">專業服務(NRE / 開發)收入暴增 174.5% 到 $3.6M,成為單季最大貢獻</span>;感測器出貨也持續成長。<br>
-    屬性提醒:目前營收仍以<b>開發 / 里程碑 / 服務</b>為主,還不是大規模 recurring 量產營收。基期低,真正放量要等 2027–2028 的車用 SOP 與光學連接量產。
+    <b>Q3 FY26 營收 $808M(YoY +90%)</b>,創紀錄。主引擎是 Cloud &amp; Networking 的 <b>EML 雷射:200G EML 營收環比暴增 +128%</b>。Q4 指引 $960M–$1.01B,續創高。<br>
+    屬性:<span class="g">量價齊揚的量產出貨(recurring)</span>,由 AI 資本支出與速率升級驅動。與 AEVA 的里程碑收入完全不同,是實打實的放量,但也<b>高度集中在 AI 光學這條線</b>。
   </div>
 </div>
 
@@ -304,8 +314,8 @@
   <div class="q-top"><span class="q-tag">Margin</span><span class="q-title">5 · 利潤率是否改善?</span></div>
   <div class="q-hint">Gross → Operating → FCF 一路看營業槓桿。</div>
   <div class="q-body">
-    <span class="g">毛利率是這季最大亮點:由去年同期 -49% 轉正到 +35.7%</span>(毛利約 $2.19M),顯示出貨組合與成本開始改善。<br>
-    但<b>營業層面仍虧損</b>:Q2 GAAP 營業虧損約 -$34.6M,研發與新業務投入仍大,<span class="r">尚未出現整體營業槓桿</span>。重點依舊是:毛利改善的趨勢能不能延續、營收能不能放大到攤平固定成本。
+    <span class="g">營業槓桿爆發</span>:管理層明言「創紀錄的營運槓桿帶動前所未見的利潤率擴張」。營收 +90% 帶動獲利以更快速度成長(市場估 Q4 EPS ~$2.97)。<br>
+    推力:EML 稀缺帶來的定價權 + 產能利用率拉高 + 高階產品組合。<b>已明顯獲利且利潤率快速上行</b>。可續看的是產能擴充後,毛利率能否維持在高檔。
   </div>
 </div>
 
@@ -313,17 +323,17 @@
   <div class="q-top"><span class="q-tag">FCF</span><span class="q-title">6 · 現金有沒有真的進來?</span></div>
   <div class="q-hint">EPS 是會計結果,現金流較難長期演戲。</div>
   <div class="q-body">
-    <span class="r">自由現金流仍為負</span>。上半年<b>營運現金流出約 $57M</b>(去年同期 $60.6M,略減),等於每季燒約 $28M。Q2 調整後 EPS -$0.41(優於預期 -$0.43),但 GAAP 淨損較大,差額主要來自<b>非現金項目(權證 / 公允價值)</b>。<br>
-    該盯的指標:<b>每季營運現金流出、增資頻率、在外股數變化</b>。這仍是「用現金換時間、等量產」的公司。
+    公司<b>已轉為明確獲利與正現金流</b>,並獲 NVIDIA <b>$2B 入股</b>強化資產負債表。<br>
+    要留意:為滿足 EML / InP 爆量需求,<span class="w">擴產 CapEx 顯著上升</span>,會消耗部分自由現金流;3D 感測等消費循環業務也可能波動。整體屬「需求拉動、邊擴產邊獲利」的健康但高投入循環。
   </div>
 </div>
 
 <div class="q">
   <div class="q-top"><span class="q-tag">Balance Sheet</span><span class="q-title">7 · 能撐過景氣下行嗎?</span></div>
-  <div class="q-hint">中小成長股尤其要看資產負債表。</div>
+  <div class="q-hint">高 beta 成長股尤其要看資產負債表。</div>
   <div class="q-body">
-    Q2 完成 <b>$115M 增資</b>,流動性拉高到 <b>$302.9M</b>、幾乎無有息負債。以每季燒 ~$28M 估算,<span class="g">現金跑道約 2.5 年以上</span>,短期資金無虞。<br>
-    代價是<span class="r">股東再度被稀釋</span>——這正是它「不能給龍頭股部位」的核心原因。好消息是趁股價高檔增資、把跑道拉長,對撐到 2027–2028 量產是加分。
+    資產負債表<span class="g">因獲利大增與 NVIDIA $2B 入股而顯著強化</span>,現金部位充裕,有能力支應擴產。Lumentum 過去有可轉債等負債,但在獲利爆發下償債與再融資壓力大幅降低。<br>
+    結論:<b>撐得過循環下行</b>,財務韌性提升;真正的風險不在資產負債表,而在<b>估值與需求循環</b>(見下)。
   </div>
 </div>
 
@@ -331,23 +341,22 @@
   <div class="q-top"><span class="q-tag">Competition</span><span class="q-title">8 · 最大競爭者是誰?</span></div>
   <div class="q-hint">用對手財報交叉驗證你這家的說法。</div>
   <div class="q-body">
-    車用光達由<b>中國廠商主導</b>:華為(約 24–26%)、RoboSense(約 16–18%),加上 Hesai、Seyond、Valeo;西方對手有 <b>Luminar、Ouster、Innoviz</b>。<br>
-    對 Aeva 有利:歐洲 OEM 出於<b>供應鏈 / 地緣考量</b>需要「非中國」供應商,加上打進 <b>NVIDIA DRIVE Hyperion</b> 生態。<br>
-    新戰場的對手不同:<span class="w">AI 資料中心光學連接要面對成熟的光通訊 / 矽光子大廠</span>,Aeva 是後進者,勝負未定。
+    EML / 光學元件:最大對手是 <b>Coherent(COHR)</b>,兩家是 western EML 雙雄;還有 <b>Broadcom</b>(光學 + 交換晶片)、日系與中國廠。<br>
+    光模組客戶 / 相關鏈:<b>InnoLight、Fabrinet、Marvell(DSP)、AAOI、Source Photonics</b>。<br>
+    定位:Lumentum 在 <b>EML 雷射晶片</b>是關鍵稀缺供應者,議價力強;但需與 Coherent 分食,且下游模組廠眾多。交叉看 COHR、FN、InnoLight 財報最能驗證 EML 需求真假。
   </div>
 </div>
 
 <div class="q">
-  <div class="q-top"><span class="q-tag">Catalyst</span><span class="q-title">9 · 未來 12–24 個月的催化劑? <span class="new-pill">Q2 更新</span></span></div>
+  <div class="q-top"><span class="q-tag">Catalyst</span><span class="q-title">9 · 未來 12–24 個月的催化劑?</span></div>
   <div class="q-hint">把催化劑與時點寫下來。</div>
   <div class="q-body">
     <ul>
-      <li><b>AI 資料中心光學連接(新)</b>:與光學引擎大廠簽 JDA、鎖定 hyperscaler 的 Near-Packaged Optics,<span class="g">2027 下半年試部署、2028 量產</span>。這是本季重評價主因。</li>
-      <li><b>NVIDIA DRIVE Hyperion(新)</b>:打進 NVIDIA 自駕平台生態。</li>
-      <li><b>Daimler Truck</b> 高速公路自駕卡車:Atlas 已進 production-intent,目標 <span class="g">2027 SOP</span>。</li>
-      <li><b>歐洲前十大乘用車 OEM 的 L3 專案</b>:非中國獨家供應,量產目標 <span class="g">2028</span>。</li>
-      <li><b>工業 / SICK</b>:2026 年度供應商,Eve 感測器未來 12–18 個月擴大放量;<b>Nikon</b> APDIS 檢測採用。</li>
-      <li>把「開發 / JDA」轉為<b>具約束力的量產訂單</b> —— 最關鍵的再定價事件。</li>
+      <li><b>8/11 盤後 Q4 FY26 財報</b>:最近、最重大的事件,看 EML 動能與 FY27 展望。</li>
+      <li><b>EML 出貨量 2026/12 季再 +50%</b>,1.6T / 3.2T 世代放量。</li>
+      <li><b>NVIDIA 採購承諾</b>逐步落地,能見度延伸至多年。</li>
+      <li><b>產能擴充</b>紓解稀缺瓶頸,支撐營收續增。</li>
+      <li>3D 感測 / 工業板塊若回溫,提供額外上行。</li>
     </ul>
   </div>
 </div>
@@ -356,8 +365,8 @@
   <div class="q-top"><span class="q-tag">Expectations</span><span class="q-title">10 · 股價已經反映什麼?</span></div>
   <div class="q-hint">Expectations Gap 預期差才是重點。</div>
   <div class="q-body">
-    重評價後市值約 $2.4B ÷ FY26 營收指引 $33M ≈ <span class="r">逾 70 倍 P/S</span>。市場<b>已把車用 2027–2028 量產 + 全新 AI 光學連接的成功,一次提前反映</b>。<br>
-    換言之:財報後這一大漲,把「樂觀情境」大致 price in 了。<span class="r">預期差已由正轉負</span>——除非光學連接拿到實質大單、或量產進度優於預期,否則現價缺乏安全邊際。追高風險升高。
+    市值 $69B ÷ 年化營收 ~$4B ≈ <span class="r">約 17 倍 P/S</span>;forward P/E 也在數十倍高檔。過去 52 週股價從 $106 漲到最高 $1,086(<b>+709%</b>),<b>市場已把「EML 稀缺王者 + AI 超級循環」極度樂觀地 price in</b>。<br>
+    <span class="r">預期差:偏負 / 風險升高</span>——好消息幾乎都在價格裡,續漲需要「持續大幅超預期」。拋物線走勢代表<b>一旦成長稍不如預期,回檔幅度可能很大</b>。
   </div>
 </div>
 
@@ -365,7 +374,7 @@
   <div class="q-top"><span class="q-tag">Valuation</span><span class="q-title">11 · Bear / Base / Bull 各值多少?</span></div>
   <div class="q-hint">三情境比單一目標價有意義,詳見下方第 2 區。</div>
   <div class="q-body">
-    這是<b>尚未獲利的故事股</b>,用本益比毫無意義,只能用「情境 × 機率」評估。核心變數:<b>光學連接能否落地、車用 SOP 是否如期、增資稀釋幅度</b>。財報後股價已大漲,三情境與機率加權見下一區(價位已按 8/7 現價更新)。
+    Lumentum <b>已獲利、可用本益比 / P/S 評估</b>,但屬<b>極高 beta、拋物線後、對 AI 資本支出高度敏感</b>。核心變數:<b>EML 需求續航、產能與定價、估值倍數是否收斂、財報是否超預期</b>。三情境見下一區(價位依 8/7 現價校準),不確定性明顯高於 COHR。
   </div>
 </div>
 
@@ -375,23 +384,18 @@
   <div class="q-body">
     先寫下「認錯訊號」:
     <ul>
-      <li><span class="r">AI 光學連接 JDA 未能轉成實質訂單 / 部署時程一再延後。</span></li>
-      <li><span class="r">Daimler 或歐洲 OEM 專案延期 / 取消 / 被對手替換。</span></li>
-      <li>連續兩季營收未照 $33M → $74M 軌道成長,或毛利率改善反轉。</li>
-      <li>燒錢加速、又需頻繁大額增資,在外股數明顯膨脹。</li>
-      <li><b>CFO 異動後</b>財務揭露品質或指引一致性下降(見下方提醒)。</li>
+      <li><span class="r">EML 需求或訂單能見度轉弱、hyperscaler 拉貨放緩。</span></li>
+      <li><span class="r">產能大擴後稀缺紅利收斂,定價權與毛利率下滑。</span></li>
+      <li>Coherent 等對手搶下更多 EML 份額。</li>
+      <li>財報 / 指引不如市場極高預期,拋物線走勢反轉。</li>
+      <li>AI 資本支出進入消化期;高估值遭遇多殺多。</li>
     </ul>
     觸發任一項就重新檢視論點,不要凹單。
   </div>
 </div>
 
-<div class="callout blue">
-  <span class="title">📌 治理提醒:CFO 異動</span>
-  財務長 Saurabh Sinha 已於 7/30 告知將於 <b>2026/09/05 離職</b>(任職六年),由 2025/12 加入的 VP Corporate Controller <b>Rupesh Maheshwari 暫代</b>。剛推出新業務、又逢 CFO 交接,值得觀察後續財測與揭露的一致性。
-</div>
-
 <!-- 2 估值 -->
-<div class="sec"><span class="n">2</span>三情境估值 · 機率加權(示意,依 8/7 現價更新)</div>
+<div class="sec"><span class="n">2</span>三情境估值 · 機率加權(示意,依 8/7 現價校準)</div>
 <div class="val">
   <table>
     <thead>
@@ -400,21 +404,21 @@
     <tbody>
       <tr>
         <td><span class="scn"><span class="dot d-bear"></span>Bear</span></td>
-        <td class="price red">$11</td>
-        <td class="prob">35%</td>
-        <td class="note">光學題材退燒 / SOP 延期 / 大幅稀釋,回吐財報前漲幅。</td>
+        <td class="price red">$520</td>
+        <td class="prob">30%</td>
+        <td class="note">拋物線反轉 / AI capex 消化 / 稀缺紅利收斂,大幅回檔。</td>
       </tr>
       <tr>
         <td><span class="scn"><span class="dot d-base"></span>Base</span></td>
-        <td class="price amber">$23</td>
+        <td class="price amber">$920</td>
         <td class="prob">40%</td>
-        <td class="note">車用照指引成長、光學仍屬早期選擇權,約當現價。</td>
+        <td class="note">成長延續、EML 續強,倍數略降但獲利補上,約當現價。</td>
       </tr>
       <tr>
         <td><span class="scn"><span class="dot d-bull"></span>Bull</span></td>
-        <td class="price green">$40</td>
-        <td class="prob">25%</td>
-        <td class="note">光學連接拿下實質大單 + 車用 SOP 如期,再創新高。</td>
+        <td class="price green">$1,150</td>
+        <td class="prob">30%</td>
+        <td class="note">EML + 1.6T/3.2T 超預期、AI 超級循環續強,再創新高。</td>
       </tr>
     </tbody>
   </table>
@@ -422,26 +426,26 @@
 
 <div class="result">
   <div class="row"><span class="rk">機率合計</span><span class="rv">100%</span></div>
-  <div class="row"><span class="rk">機率加權合理價</span><span class="rv">$23.05</span></div>
-  <div class="row"><span class="rk">目前股價(8/7)</span><span class="rv">$25.26</span></div>
-  <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv red">-8.8%</span></div>
-  <div class="row"><span class="rk">風險報酬比(上檔 ÷ 下檔)</span><span class="rv red">1.03 : 1</span></div>
+  <div class="row"><span class="rk">機率加權合理價</span><span class="rv">$869</span></div>
+  <div class="row"><span class="rk">目前股價(8/7)</span><span class="rv">$890.17</span></div>
+  <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv red">-2.4%</span></div>
+  <div class="row"><span class="rk">風險報酬比(上檔 ÷ 下檔)</span><span class="rv red">0.70 : 1</span></div>
 </div>
 
 <div class="callout red">
-  <span class="title">為什麼是「偏貴 · 等待」?</span>
-  財報後股價已大漲,加權合理價 $23 <b>略低於</b>現價 $25.26,預期差轉為 -9%;上檔 +$14.7、下檔 -$14.3,風險報酬比僅約 1.0:1,不再對稱。<b>好消息大致 price in,追高的安全邊際不足。等回檔靠近 Base/Bear 區,或等光學連接、車用量產出現實質訂單再考慮。</b>
+  <span class="title">為什麼是「不宜追高」?</span>
+  加權合理價 $869 已<b>略低於</b>現價,預期差轉負;更關鍵的是<b>上檔 +$260、下檔 -$370,風險報酬比僅 0.70:1(賠率大於賺率)</b>。生意再好,拋物線 +709% 之後、又逢明天財報,<b>追高的風險明顯大於報酬</b>。理想作法:等財報後波動塵埃落定、或等明顯回檔再評估。
 </div>
 
 <!-- 3 倉位 -->
 <div class="sec"><span class="n">3</span>倉位大小</div>
 <div class="result">
-  <div class="row"><span class="rk">資產負債表能撐過下行?</span><span class="rv green" style="font-size:15px">跑道充足,但持續稀釋</span></div>
-  <div class="row"><span class="rk">研究信心 / 完成度</span><span class="rv amber" style="font-size:15px">中</span></div>
-  <div class="row"><span class="rk">建議部位傾向</span><span class="postag">小 · 試探部位</span></div>
+  <div class="row"><span class="rk">資產負債表能撐過下行?</span><span class="rv green" style="font-size:15px">穩健(NVIDIA 入股)</span></div>
+  <div class="row"><span class="rk">研究信心 / 完成度</span><span class="rv amber" style="font-size:15px">中高(但估值風險大)</span></div>
+  <div class="row"><span class="rk">建議部位傾向</span><span class="postag">小 · 勿追高</span></div>
 </div>
-<div class="callout purple">
-  <b>高風險故事股,控制單一部位風險。</b>雖然現金跑道拉長、毛利轉正是好事,但股價已反映大量樂觀,又剛跨入尚未驗證的 AI 光學連接、逢 CFO 交接。就算看好,也應以「小試探部位」參與,等論點被後續財報與訂單驗證後再考慮加碼。
+<div class="callout red">
+  <b>生意一流,但價位與時機不利,部位要小。</b>公司體質配得上一般部位,但<b>拋物線 +709%、估值 ~17x P/S、風險報酬比 0.7:1、又逢 8/11 財報</b>——這是「好公司、壞價位」的典型。若真要參與,只宜<b>小額試探、分批,並保留財報後與回檔時的加碼空間</b>,切忌財報前重壓追高。
 </div>
 
 <!-- 4 資訊來源 -->
@@ -449,27 +453,27 @@
 <div class="src">
   <div class="tier">
     <div class="th"><span class="b b1">第一級</span><span class="tt">公司官方(先看)</span></div>
-    <div class="bd"><code>10-Q</code> <code>Q2 FY26 Earnings Release</code> <code>法說 Transcript</code> <code>Investor Slides</code> <code>investors.aeva.com</code> —— 盯營收軌道、毛利率趨勢、營運現金流出、在外股數、光學連接與量產里程碑。</div>
+    <div class="bd"><code>10-K</code> <code>10-Q</code> <code>Q4 FY26 Earnings(8/11)</code> <code>法說 Transcript</code> <code>investor.lumentum.com</code> —— 盯 EML 出貨動能、毛利率、產能擴充、NVIDIA 承諾落地與 FY27 展望。</div>
   </div>
   <div class="tier">
     <div class="th"><span class="b b2">第二級</span><span class="tt">產業交叉驗證</span></div>
-    <div class="bd">車用對照 <code>Luminar</code> <code>Ouster</code> <code>Innoviz</code> <code>Hesai</code> <code>RoboSense</code>;光學連接對照光通訊 / 矽光子供應鏈與 hyperscaler capex。看客戶(Daimler、SICK、Nikon、NVIDIA 生態)說法是否一致。</div>
+    <div class="bd">對照 <code>Coherent(COHR)</code> <code>Broadcom(AVGO)</code> <code>Marvell(MRVL)</code> <code>Fabrinet(FN)</code> <code>InnoLight</code> 與 hyperscaler capex。EML 雙雄 COHR / LITE 說法是否一致最關鍵;下游模組廠出貨可驗證 EML 拉貨真假。</div>
   </div>
   <div class="tier">
     <div class="th"><span class="b b3">第三級</span><span class="tt">新聞(更新論點,不是建立論點)</span></div>
-    <div class="bd">看到利多先問:有沒有改變 Revenue / Margin / TAM / Market Share / Valuation?這次「AI 資料中心」題材讓股價單日大漲,務必分辨<b>是實質訂單還是敘事</b>。看它「做了什麼」,不是「說了什麼」。</div>
+    <div class="bd">看到利多 / 利空先問:有沒有改變 Revenue / Margin / TAM / Market Share / Valuation?LITE 是拋物線高 beta 股,單日常見超大波動,多為情緒與資金流。看它「EML 出貨與訂單」,不是「新聞標題」。</div>
   </div>
 </div>
 
 <div class="callout red" style="margin-top:22px">
   <span class="title">⚠️ 風險提醒</span>
-  AEVA 是<b>尚未獲利、仍在燒錢、靠增資延命</b>的高風險故事股,成敗押在 2027–2028 車用量產 SOP 與全新、未驗證的 AI 光學連接業務。股價剛因題材大漲、估值逾 70 倍 P/S、又逢 CFO 交接。52 週區間 $8.84–$31.26、單日常見兩位數波動。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司 Q2 FY2026 財報 / 10-Q 為準。
+  LITE 雖已獲利、EML 地位關鍵,但屬<b>極高 beta、拋物線走勢</b>的股票:52 週狂漲 +709%、估值極高(P/S ~17x),<b>風險報酬比目前偏向下檔(0.7:1)</b>,且 <b>8/11 盤後財報</b>可能帶來單日數十 % 級跳動。稀缺紅利收斂、對手(Coherent)競爭、AI 資本支出循環皆為變數。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司 Q3 FY2026 財報 / SEC 文件為準,8/7 收盤價 $890.17。
 </div>
 
 <div class="footer">
-  一頁研究報告 · AEVA 易讀版 · 資料截至 2026/08/07<br>
+  一頁研究報告 · LITE 易讀版 · 資料截至 2026/08/07<br>
   框架整理自《你不是缺股票資訊,你是缺一套研究股票的方法》—— 大叔美股筆記<br>
-  資料來源:Aeva Q2 FY2026 財報與法說會(2026/08/05 發布)、公司投資人簡報、產業市場報告<br>
+  資料來源:Lumentum Q3 FY2026 財報與法說會(2026/05 發布)、SEC 文件、產業光模組市場報告<br>
   本工具僅供個人研究流程管理,不構成投資建議
 </div>
 
