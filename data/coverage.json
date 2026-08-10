@@ -1,0 +1,33 @@
+{
+  "_comment": "美股研究涵蓋清單 · 自動更新排程讀這份來巡檢。新增個股=在對應 sector.stocks 加一筆並依範本建頁;新增類股=加一個 sector 物件與資料夾。",
+  "updated": "2026-08-07",
+  "home": "stocks.html",
+  "shared_css": "assets/report.css",
+  "template": "_template-report.html",
+  "sectors": [
+    {
+      "id": "ai-optics",
+      "name": "AI 光學 / 互連",
+      "dir": "ai-optics",
+      "hub": "ai-optics/index.html",
+      "compare": "ai-optics/compare-report.html",
+      "stocks": [
+        { "ticker": "AEVA", "exchange": "NASDAQ", "company": "Aeva",     "file": "ai-optics/aeva-report.html", "verdict": "偏貴·等待",       "position": "小·試探",   "rr": "1.03", "next_earnings": "約 11 月" },
+        { "ticker": "COHR", "exchange": "NYSE",   "company": "Coherent", "file": "ai-optics/cohr-report.html", "verdict": "合理·觀望",       "position": "中·一般",   "rr": "1.25", "next_earnings": "8/12" },
+        { "ticker": "LITE", "exchange": "NASDAQ", "company": "Lumentum", "file": "ai-optics/lite-report.html", "verdict": "好公司·危險價位", "position": "小·勿追高", "rr": "0.70", "next_earnings": "8/11" },
+        { "ticker": "MRVL", "exchange": "NASDAQ", "company": "Marvell",  "file": "ai-optics/mrvl-report.html", "verdict": "合理偏正向",     "position": "中·一般",   "rr": "1.43", "next_earnings": "8/27" },
+        { "ticker": "AVGO", "exchange": "NASDAQ", "company": "Broadcom", "file": "ai-optics/avgo-report.html", "verdict": "偏正向·核心",     "position": "中偏大·核心","rr": "1.53", "next_earnings": "約 9 月初" }
+      ]
+    },
+    {
+      "id": "chip-ip",
+      "name": "半導體 IP",
+      "dir": "chip-ip",
+      "hub": "chip-ip/index.html",
+      "compare": null,
+      "stocks": [
+        { "ticker": "AIP", "exchange": "NASDAQ", "company": "Arteris", "file": "chip-ip/aip-report.html", "verdict": "合理區間·觀望", "position": "小·試探", "rr": "1.07", "next_earnings": "約 11 月" }
+      ]
+    }
+  ]
+}
