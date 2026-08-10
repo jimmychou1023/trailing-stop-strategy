@@ -547,7 +547,7 @@
     <span class="verdict-val" id="r-gap">—</span>
   </div>
   <div class="verdict-row">
-    <span class="verdict-key">風險報酬比（上檔÷下檔）</span>
+    <span class="verdict-key">報酬風險比（上檔÷下檔）</span>
     <span class="verdict-val" id="r-rr">—</span>
   </div>
   <div class="big-verdict bv-neutral" id="big-verdict">填入三情境與股價後自動判斷</div>
@@ -778,7 +778,7 @@
       bv.innerHTML = `研究還沒完成（${filled}/12）<div class="sub">一頁研究表填不完，先不要買——不是股票不好，是研究還沒做完。</div>`;
     } else if (upside >= 20 && (rr == null || rr >= 2)) {
       bv.className = 'big-verdict bv-good';
-      bv.innerHTML = `值得買入 · 有預期差<div class="sub">上檔 +${upside.toFixed(0)}%，風險報酬比有利。以合理價格買優秀公司，勝過以優秀價格買平庸公司。</div>`;
+      bv.innerHTML = `值得買入 · 有預期差<div class="sub">上檔 +${upside.toFixed(0)}%，報酬風險比有利。以合理價格買優秀公司，勝過以優秀價格買平庸公司。</div>`;
     } else if (upside <= -10) {
       bv.className = 'big-verdict bv-avoid';
       bv.innerHTML = `太貴了 · 市場已反映<div class="sub">現價高於加權合理價 ${Math.abs(upside).toFixed(0)}%。好公司 ≠ 好股票，未來可能已經被 price in。</div>`;
@@ -840,7 +840,7 @@
     md += `| Bull | ${g('bullPrice')} | ${g('bullProb')}% |\n\n`;
     md += `- 機率加權合理價：${$('r-weighted').textContent}\n`;
     md += `- 預期差：${$('r-gap').textContent.replace(/<[^>]+>/g,'')}\n`;
-    md += `- 風險報酬比：${$('r-rr').textContent}\n`;
+    md += `- 報酬風險比：${$('r-rr').textContent}\n`;
     md += `- 建議部位：${$('r-position').textContent}\n\n`;
     md += `## 下單前四問\n\n`;
     PREBUY.forEach(p => { md += `**${p.main}**\n\n${g(p.key)}\n\n`; });
