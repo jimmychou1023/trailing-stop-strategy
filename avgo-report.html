@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVGO 研究報告 · 易讀版</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+  :root {
+    --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --ink:#1a1f2b; --ink2:#3d4658;
+    --muted:#6a7488; --line:#e2e6ec; --line2:#d3d9e2;
+    --blue:#1f6feb; --blue-bg:#e8f1ff; --green:#157f4a; --green-bg:#e4f6ec;
+    --red:#c0392b; --red-bg:#fdecea; --amber:#9a6a00; --amber-bg:#fbf1d9;
+    --purple:#6b3fd4; --purple-bg:#efe9fd;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter','Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+    font-size: 16px; line-height: 1.75; padding: 24px 18px 72px;
+    max-width: 720px; margin: 0 auto; -webkit-font-smoothing: antialiased;
+  }
+  .nav { display: flex; gap: 7px; margin-bottom: 22px; flex-wrap: wrap; }
+  .nav a {
+    flex: 1; min-width: 64px; text-align: center; padding: 9px 7px;
+    border-radius: 9px; border: 1px solid var(--line2); background: var(--card);
+    color: var(--ink2); font-size: 12.5px; font-weight: 600; text-decoration: none; transition: all .15s;
+  }
+  .nav a.active { color:#fff; background: var(--blue); border-color: var(--blue); }
+  .nav a:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+  .header { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 24px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(20,30,50,.04); }
+  .header .badge { display:inline-block; background: var(--purple-bg); color: var(--purple); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; margin-bottom: 14px; }
+  .header h1 { font-size: 27px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
+  .header h1 .tk { font-family: 'JetBrains Mono', monospace; color: var(--blue); }
+  .header .sub { font-size: 15px; color: var(--ink2); font-weight: 500; }
+  .header .desc { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+  .asof { display:inline-block; margin-top: 12px; font-size: 12.5px; font-weight: 600; color: var(--blue); background: var(--blue-bg); border-radius: 8px; padding: 5px 12px; }
+  .banner { border-radius: 14px; padding: 20px 22px; margin-bottom: 16px; background: var(--green-bg); border: 1px solid #bfe6cd; }
+  .banner .tag { font-size: 13px; font-weight: 700; color: var(--green); letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .banner .tag::before { content: '✅'; font-size: 16px; }
+  .banner h2 { font-size: 21px; font-weight: 700; color: #0f5c37; margin-bottom: 8px; }
+  .banner p { font-size: 14.5px; color: #12563a; line-height: 1.75; }
+  .banner b { font-weight: 700; }
+  .compare { border-radius: 12px; padding: 15px 18px; margin-bottom: 22px; background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a; font-size: 13.5px; line-height: 1.7; }
+  .compare b { font-weight: 700; }
+  .sec { display: flex; align-items: center; gap: 11px; margin: 32px 0 14px; font-size: 19px; font-weight: 700; color: var(--ink); }
+  .sec .n { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 9px; background: var(--blue); color: #fff; font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+  .grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 15px 16px; }
+  .stat .k { font-size: 12.5px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .stat .v { font-size: 21px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: -.01em; }
+  .stat .v.green { color: var(--green); } .stat .v.red { color: var(--red); } .stat .v.amber { color: var(--amber); }
+  .stat .h { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+  .stat .h .up { color: var(--green); font-weight: 700; } .stat .h .dn { color: var(--red); font-weight: 700; }
+  .chartcard { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 12px 12px 8px; box-shadow: 0 1px 2px rgba(20,30,50,.03); }
+  .chartnote { font-size: 11.5px; color: var(--muted); margin: 8px 4px 2px; line-height: 1.5; }
+  .q { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 18px 20px; margin-bottom: 13px; box-shadow: 0 1px 2px rgba(20,30,50,.03); }
+  .q-top { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+  .q-tag { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700; color: var(--blue); background: var(--blue-bg); padding: 3px 9px; border-radius: 6px; }
+  .q-title { font-size: 17px; font-weight: 700; color: var(--ink); }
+  .q-hint { font-size: 13px; color: var(--muted); margin-bottom: 11px; }
+  .q-body { font-size: 15px; color: var(--ink2); line-height: 1.85; }
+  .q-body b { color: var(--ink); font-weight: 700; }
+  .q-body .g { color: var(--green); font-weight: 700; } .q-body .r { color: var(--red); font-weight: 700; } .q-body .w { color: var(--amber); font-weight: 700; }
+  .q-body ul { margin: 8px 0 0; padding-left: 4px; list-style: none; }
+  .q-body li { position: relative; padding-left: 22px; margin-bottom: 6px; }
+  .q-body li::before { content: '›'; position: absolute; left: 6px; top: -1px; color: var(--blue); font-weight: 700; font-size: 17px; }
+  .val { background: var(--card); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; margin-bottom: 14px; }
+  .val table { width: 100%; border-collapse: collapse; }
+  .val th { background: var(--card2); text-align: left; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .04em; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .val th:nth-child(2), .val th:nth-child(3) { text-align: center; }
+  .val td { padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .val tr:last-child td { border-bottom: none; }
+  .val .scn { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+  .val .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .d-bear { background: var(--red); } .d-base { background: var(--amber); } .d-bull { background: var(--green); }
+  .val .price { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 19px; font-weight: 700; }
+  .val .price.red { color: var(--red); } .val .price.amber { color: var(--amber); } .val .price.green { color: var(--green); }
+  .val .prob { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; color: var(--ink2); }
+  .val .note { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .result { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 6px 20px; margin-bottom: 14px; }
+  .result .row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .result .row:last-child { border-bottom: none; }
+  .result .rk { font-size: 14.5px; color: var(--ink2); font-weight: 500; }
+  .result .rv { font-family: 'JetBrains Mono', monospace; font-size: 19px; font-weight: 700; }
+  .result .rv.red { color: var(--red); } .result .rv.amber { color: var(--amber); } .result .rv.green { color: var(--green); }
+  .callout { border-radius: 12px; padding: 16px 18px; margin-top: 14px; font-size: 14px; line-height: 1.75; }
+  .callout.purple { background: var(--purple-bg); border: 1px solid #d6c7f5; color: #4a2ba0; }
+  .callout.red { background: var(--red-bg); border: 1px solid #f3c4bd; color: #8a2618; }
+  .callout.blue { background: var(--blue-bg); border: 1px solid #c2d9fb; color: #14417a; }
+  .callout.green { background: var(--green-bg); border: 1px solid #bfe6cd; color: #0f5c37; }
+  .callout b { font-weight: 700; }
+  .callout .title { font-weight: 700; font-size: 15px; margin-bottom: 5px; display: block; }
+  .postag { display: inline-block; background: var(--purple); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 15px; font-weight: 700; }
+  .src { background: var(--card); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; }
+  .src .tier { padding: 15px 18px; border-bottom: 1px solid var(--line); }
+  .src .tier:last-child { border-bottom: none; }
+  .src .th { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .src .b { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
+  .b1 { color: var(--green); background: var(--green-bg); } .b2 { color: var(--amber); background: var(--amber-bg); } .b3 { color: var(--red); background: var(--red-bg); }
+  .src .tt { font-size: 15px; font-weight: 700; }
+  .src .bd { font-size: 13.5px; color: var(--ink2); line-height: 1.75; }
+  .src code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--card2); padding: 2px 7px; border-radius: 5px; color: var(--ink); border: 1px solid var(--line); }
+  .footer { text-align: center; margin-top: 36px; font-size: 12.5px; color: var(--muted); line-height: 1.9; }
+  @media (max-width: 480px) { body { font-size: 15px; } .grid { grid-template-columns: 1fr; } .header h1 { font-size: 23px; } .val .note { display: none; } .val th:nth-child(4) { display: none; } }
+  @media print { .nav { display: none; } body { background:#fff; max-width: 100%; } .q,.header,.val,.result,.src,.stat,.chartcard { box-shadow: none; } }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="research.html">框架</a>
+  <a href="aeva-report.html">AEVA</a>
+  <a href="cohr-report.html">COHR</a>
+  <a href="lite-report.html">LITE</a>
+  <a href="mrvl-report.html">MRVL</a>
+  <a href="avgo-report.html" class="active">AVGO</a>
+  <a href="compare-report.html">對照</a>
+  <a href="index.html">停損</a>
+</div>
+
+<div class="header">
+  <span class="badge">一頁研究報告 · 易讀版</span>
+  <h1><span class="tk">AVGO</span>　Broadcom</h1>
+  <div class="sub">客製 AI 晶片(XPU) / 網路交換晶片 / 光學 / VMware 軟體 · Nasdaq 上市</div>
+  <div class="desc">用「大叔美股筆記」的 12 問框架研究這檔 <b>AI 基礎建設巨頭</b>。資料截至 <b>2026/08/07</b>,最新財報為 <b>Q2 FY2026</b>(2026/06 發布);下一份 <b>Q3 FY2026 財報約 9 月初</b>。</div>
+  <span class="asof">資料截至 2026/08/07 · 下次財報約 9 月初</span>
+</div>
+
+<div class="banner">
+  <div class="tag">研究結論</div>
+  <h2>合理偏正向 · AI 基建核心持股(分批)</h2>
+  <p>市值 <b>$2 兆</b>的 AI 基建巨頭:客製 AI 晶片(XPU)+ 網路交換晶片 + 光學 + VMware 軟體,現金流極強、有配息回購。Q2 營收 <b>+48%</b>、AI 半導體爆發(FY27 目標 &gt;$1,000 億)。股價 <b>$389</b>、加權合理價約 <b>$434</b>(上檔 +11%),<b>風險報酬比約 1.53:1,五檔中最佳</b>。體質最耐震、最適合作核心持股,但估值不低——<b>分批布局,不追高。</b></p>
+</div>
+
+<div class="compare">
+  <b>在五檔中的定位:</b>其他四檔多是「單一環節」的玩家,<b>AVGO 是把整套 AI 互連與運算整合起來的巨頭</b>:客製 AI ASIC(與 MRVL 正面競爭)、交換晶片(Tomahawk / Jericho)、光學(DSP / CPO),再加上穩定的 VMware 軟體金流。<b>體質最分散、最耐震,但也最大、成長率相對較低</b>。
+</div>
+
+<!-- 0 基本資料 -->
+<div class="sec"><span class="n">0</span>基本資料快照 <span style="font-size:12px;color:var(--muted);font-weight:600;">· 2026/08/07</span></div>
+<div class="grid">
+  <div class="stat"><div class="k">目前股價</div><div class="v">$389</div><div class="h">$380–$400 區間整理</div></div>
+  <div class="stat"><div class="k">市值</div><div class="v">$2.04T</div><div class="h">全球最大半導體之一</div></div>
+  <div class="stat"><div class="k">52 週區間</div><div class="v amber">$282–$495</div><div class="h">自高點回檔整理</div></div>
+  <div class="stat"><div class="k">Q2 FY26 營收</div><div class="v green">$22.2B</div><div class="h">年增 +48%</div></div>
+  <div class="stat"><div class="k">Q3 AI 半導體指引</div><div class="v green">$16.0B</div><div class="h">年增 +200%+</div></div>
+  <div class="stat"><div class="k">AI 半導體目標</div><div class="v green">FY27 &gt;$100B</div><div class="h">FY26 目標約 $56B</div></div>
+  <div class="stat"><div class="k">股東回報</div><div class="v">配息+回購</div><div class="h">現金流極強</div></div>
+  <div class="stat"><div class="k">下次財報</div><div class="v amber">約 9 月初</div><div class="h">Q3 FY26(會計年度 11 月初)</div></div>
+</div>
+
+<!-- 走勢圖 -->
+<div class="sec"><span class="n">📈</span>股價走勢(近 12 個月)· 即時</div>
+<div class="chartcard">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+    {"symbol":"NASDAQ:AVGO","width":"100%","height":230,"locale":"zh_TW","dateRange":"12M","colorTheme":"light","isTransparent":true,"autosize":false,"chartOnly":false,"noTimeScale":false}
+    </script>
+  </div>
+  <div class="chartnote">即時圖表由 TradingView 提供,反映最新市價(可能與本頁「資料截至 2026/08/07」的數字不同)。若圖表未顯示,多為網路 / 瀏覽器擋第三方元件所致。</div>
+</div>
+
+<!-- 1 12 問 -->
+<div class="sec"><span class="n">1</span>一頁研究表 · 12 問</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Business</span><span class="q-title">1 · 公司靠什麼賺錢?</span></div>
+  <div class="q-hint">賣什麼、誰付錢、客戶為什麼換不掉它。</div>
+  <div class="q-body">
+    Broadcom 是<b>半導體 + 基礎軟體巨頭</b>,兩大板塊:<br>
+    <b>① 半導體解決方案</b>:替雲端巨頭設計<b>客製 AI 晶片(XPU / ASIC)</b>、資料中心<b>網路交換晶片</b>(Tomahawk / Jericho)、<b>光學(DSP / CPO)</b>、寬頻、無線(含 Apple 相關)。<br>
+    <b>② 基礎架構軟體</b>:<b>VMware</b>(雲端基礎架構訂閱)、主機、資安,提供<span class="g">穩定、非 AI 的經常性金流</span>。<br>
+    付錢的是<b>雲端巨頭、電信 / 企業、消費電子廠</b>。換不掉的原因:客製晶片深度綁定客戶多年、交換晶片市佔領先、VMware 高續約率,<span class="g">整體轉換成本極高</span>。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">TAM</span><span class="q-title">2 · 市場還能成長多久?</span></div>
+  <div class="q-hint">TAM 是判斷成長空間,不是簡報用的。</div>
+  <div class="q-body">
+    AI 基建是主戰場:客製 AI 晶片、網路交換、光學互連,三者 TAM 都在爆發。管理層<b>重申 FY26 AI 半導體營收約 $560 億、FY27 逾 $1,000 億</b>,並指 Q3 AI 半導體年增逾 <b>+200%</b>。<br>
+    加上 VMware 提供的穩定軟體 TAM,AVGO 是<span class="g">少數「AI 高成長 + 軟體穩定金流」兼具</span>的巨頭。TAM 無虞,關鍵在客製晶片客戶集中度與 AI 資本支出循環。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Moat</span><span class="q-title">3 · 為什麼對手搶不走?</span></div>
+  <div class="q-hint">好到別人無法取代,才叫護城河。</div>
+  <div class="q-body">
+    護城河<span class="g">寬且多層</span>:<b>客製晶片的設計能力 + 深度客戶綁定</b>(打進大型 hyperscaler 自研晶片)、<b>交換晶片市佔領先</b>、<b>光學 / IP 組合</b>、以及 <b>VMware 的高續約黏著度</b>。規模與現金流讓它能持續併購與投入研發。<br>
+    誠實面:客製晶片與 <span class="w">Marvell(MRVL)正面競爭</span>;VMware 漲價策略引發部分客戶不滿(潛在流失風險);營收高度集中於少數大客戶。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Revenue</span><span class="q-title">4 · 成長來自哪裡?</span></div>
+  <div class="q-hint">價格還是數量?一次性還是 recurring?</div>
+  <div class="q-body">
+    <b>Q2 FY26 營收 $22.2B(YoY +48%)</b>,主引擎是 <b>AI 半導體</b>(客製晶片 + 網路),Q3 指引 AI 半導體 $16.0B(+200%+)。VMware 提供<span class="g">穩定的軟體訂閱收入</span>。<br>
+    屬性:AI 晶片是量產出貨 + 專案爬坡,VMware 是 recurring 訂閱,<b>成長與穩定兼具</b>。相較純光學股,AVGO 營收更分散、可預測性更高。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Margin</span><span class="q-title">5 · 利潤率是否改善?</span></div>
+  <div class="q-hint">Gross → Operating → FCF 一路看營業槓桿。</div>
+  <div class="q-body">
+    AVGO <b>毛利率與營業利益率在半導體業屬頂尖</b>,VMware 併入後軟體高毛利進一步拉高整體獲利品質;自由現金流利潤率極高。<br>
+    要留意:客製 AI 晶片(ASIC)毛利率<span class="w">低於自有 IP 產品</span>,AI 佔比升高可能稀釋整體毛利率;但 VMware 與規模效益大致可抵銷。整體是<b>高獲利、強現金流</b>的典範。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">FCF</span><span class="q-title">6 · 現金有沒有真的進來?</span></div>
+  <div class="q-hint">EPS 是會計結果,現金流較難長期演戲。</div>
+  <div class="q-body">
+    AVGO 是<b>自由現金流機器</b>:每季產生龐大 FCF,用於<b>配息、庫藏股與還債</b>(VMware 收購帶來的負債正快速償還)。<br>
+    這是與其他四檔最大的差異——AEVA 靠增資、LITE/COHR/MRVL 邊擴產邊獲利,而 <span class="g">AVGO 已是成熟、能大額回饋股東</span>的現金流巨獸。留意 GAAP 受收購攤銷影響,需對照 Non-GAAP。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Balance Sheet</span><span class="q-title">7 · 能撐過景氣下行嗎?</span></div>
+  <div class="q-hint">大型併購型公司要看負債與去槓桿。</div>
+  <div class="q-body">
+    因收購 VMware 揹了可觀負債,但<span class="g">強勁 FCF 讓去槓桿快速進行</span>,利息覆蓋充足。規模、現金流與多元業務讓它<b>抗景氣循環能力在五檔中最強</b>。<br>
+    真正風險不在資產負債表,而在<b>估值與客戶 / AI 資本支出集中度</b>(見下)。撐得過下行,還可能逆勢併購。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Competition</span><span class="q-title">8 · 最大競爭者是誰?</span></div>
+  <div class="q-hint">用對手財報交叉驗證你這家的說法。</div>
+  <div class="q-body">
+    客製 AI 晶片:主要對手 <b>Marvell(MRVL)</b>,以及客戶「自研」的替代威脅。交換晶片:與 <b>NVIDIA(NVLink / 網路)</b>、Cisco 等競逐。光學:與 <b>Coherent、Lumentum、Marvell</b> 生態交錯。GPU 運算則有 NVIDIA / AMD(AVGO 走的是「客製 ASIC 替代通用 GPU」的路線)。<br>
+    交叉驗證:看 <code>MRVL</code> <code>NVDA</code> 與 hyperscaler capex,能判斷 AVGO 的客製晶片份額與 AI 需求真假。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Catalyst</span><span class="q-title">9 · 未來 12–24 個月的催化劑?</span></div>
+  <div class="q-hint">把催化劑與時點寫下來。</div>
+  <div class="q-body">
+    <ul>
+      <li><b>約 9 月初 Q3 FY26 財報</b>:看 AI 半導體是否續超預期。</li>
+      <li><b>AI 半導體邁向 FY27 &gt;$1,000 億</b>目標的達成軌跡。</li>
+      <li><b>新客製晶片客戶</b>(傳有多家 hyperscaler 洽談)落地。</li>
+      <li>下一代<b>交換晶片 / CPO 光學</b>放量。</li>
+      <li>VMware 續約與去槓桿進度;持續配息 / 回購。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Expectations</span><span class="q-title">10 · 股價已經反映什麼?</span></div>
+  <div class="q-hint">Expectations Gap 預期差才是重點。</div>
+  <div class="q-body">
+    $2 兆市值、股價 $389(52 週 $282–$495),市場<b>已反映 AI 半導體強勁成長與 FY27 目標</b>,但目前在 $380–$400 區間整理、消化部分樂觀。分析師平均「強力買進」、目標價約 $528。<br>
+    <span class="w">預期差:中性偏正</span>——體質與能見度是五檔最佳,估值不低但不算泡沫;續漲需 AI 半導體持續超標與新客戶落地。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Valuation</span><span class="q-title">11 · Bear / Base / Bull 各值多少?</span></div>
+  <div class="q-hint">三情境比單一目標價有意義,詳見下方第 2 區。</div>
+  <div class="q-body">
+    AVGO <b>已高度獲利、可用本益比 / FCF 評估</b>,但仍與 AI 資本支出連動。核心變數:<b>AI 半導體達標度、客戶集中度、VMware 穩定性、估值倍數</b>。因業務分散、現金流強,波動與下檔風險相對其他四檔小。三情境見下一區(依 8/7 現價校準)。
+  </div>
+</div>
+
+<div class="q">
+  <div class="q-top"><span class="q-tag">Thesis Break</span><span class="q-title">12 · 什麼事代表我錯了?</span></div>
+  <div class="q-hint">進場前就寫好,跌 40% 後大腦會自動編故事。</div>
+  <div class="q-body">
+    先寫下「認錯訊號」:
+    <ul>
+      <li><span class="r">大型客製晶片客戶流失,或 FY27 &gt;$100B 目標明顯跳票。</span></li>
+      <li><span class="r">AI 半導體成長急煞、客戶砍單。</span></li>
+      <li>VMware 大量客戶流失 / 反壟斷壓力升高。</li>
+      <li>毛利率或 FCF 明顯惡化、去槓桿停滯。</li>
+      <li>AI 資本支出進入消化;高估值遭多殺多。</li>
+    </ul>
+    觸發任一項就重新檢視論點,不要凹單。
+  </div>
+</div>
+
+<!-- 2 估值 -->
+<div class="sec"><span class="n">2</span>三情境估值 · 機率加權(示意,依 8/7 現價校準)</div>
+<div class="val">
+  <table>
+    <thead><tr><th>情境</th><th>合理價</th><th>機率</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><span class="scn"><span class="dot d-bear"></span>Bear</span></td><td class="price red">$290</td><td class="prob">25%</td><td class="note">AI capex 消化 / 客戶集中度風險 / 估值壓縮。</td></tr>
+      <tr><td><span class="scn"><span class="dot d-base"></span>Base</span></td><td class="price amber">$430</td><td class="prob">40%</td><td class="note">AI 半導體照軌道成長、VMware 穩定,溫和上行。</td></tr>
+      <tr><td><span class="scn"><span class="dot d-bull"></span>Bull</span></td><td class="price green">$540</td><td class="prob">35%</td><td class="note">AI 晶片超預期 + 新客戶 + FY27 &gt;$100B,再創高。</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="result">
+  <div class="row"><span class="rk">機率合計</span><span class="rv">100%</span></div>
+  <div class="row"><span class="rk">機率加權合理價</span><span class="rv">$434</span></div>
+  <div class="row"><span class="rk">目前股價(8/7)</span><span class="rv">$389</span></div>
+  <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv green">+11.4%</span></div>
+  <div class="row"><span class="rk">風險報酬比(上檔 ÷ 下檔)</span><span class="rv green">1.53 : 1</span></div>
+</div>
+
+<div class="callout green">
+  <span class="title">怎麼讀這個結果?</span>
+  加權合理價 $434 高於現價,<b>上檔約 +11%</b>;上檔 +$151、下檔 -$99,<b>風險報酬比 1.53:1,五檔中最佳</b>。因為 AVGO 業務最分散、現金流最強、又有 VMware 穩定金流,下檔相對有撐。方向偏多、適合作 AI 基建<b>核心持股</b>,但估值不低——<b>分批布局、不追高更穩健。</b>
+</div>
+
+<!-- 3 倉位 -->
+<div class="sec"><span class="n">3</span>倉位大小</div>
+<div class="result">
+  <div class="row"><span class="rk">資產負債表能撐過下行?</span><span class="rv green" style="font-size:15px">最強,FCF 機器</span></div>
+  <div class="row"><span class="rk">研究信心 / 完成度</span><span class="rv green" style="font-size:15px">高</span></div>
+  <div class="row"><span class="rk">建議部位傾向</span><span class="postag">中偏大 · 核心持股(分批)</span></div>
+</div>
+<div class="callout green">
+  <b>五檔中體質最耐震、最適合作核心持股。</b>已高度獲利、現金流極強、業務分散(AI + 交換 + 光學 + VMware),下檔相對有撐,配得上較大的部位。唯估值不低、客戶集中度需留意——建議<b>分批布局、逢回檔加碼</b>,作為 AI 基建的長期核心,而非短線追高。
+</div>
+
+<!-- 4 資訊來源 -->
+<div class="sec"><span class="n">4</span>資訊來源三級制</div>
+<div class="src">
+  <div class="tier"><div class="th"><span class="b b1">第一級</span><span class="tt">公司官方(先看)</span></div>
+    <div class="bd"><code>10-K</code> <code>10-Q</code> <code>Q3 FY26 Earnings(約 9 月初)</code> <code>法說 Transcript</code> <code>investors.broadcom.com</code> —— 盯 AI 半導體營收、客製晶片客戶、VMware 續約、FCF 與去槓桿。</div></div>
+  <div class="tier"><div class="th"><span class="b b2">第二級</span><span class="tt">產業交叉驗證</span></div>
+    <div class="bd">對照 <code>Marvell(MRVL)</code> <code>NVIDIA(NVDA)</code> <code>Coherent(COHR)</code> <code>Lumentum(LITE)</code> 與 hyperscaler capex。MRVL / NVDA 的說法最能交叉驗證 AVGO 的客製晶片與 AI 需求。</div></div>
+  <div class="tier"><div class="th"><span class="b b3">第三級</span><span class="tt">新聞(更新論點,不是建立論點)</span></div>
+    <div class="bd">看到「新增 hyperscaler 客製晶片客戶」的傳聞先問:有沒有改變 Revenue / Margin / TAM / Valuation?AVGO 對這類大單消息敏感,要分辨簽約落地與市場臆測。</div></div>
+</div>
+
+<div class="callout red" style="margin-top:22px">
+  <span class="title">⚠️ 風險提醒</span>
+  AVGO 體質雖為五檔最佳,但仍是<b>與 AI 資本支出高度連動的大型股</b>:52 週 $282–$495、估值不低,營收<b>高度集中於少數大客戶</b>,VMware 亦有客戶流失 / 監管風險。約 9 月初財報可能帶來波動。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司 Q2 FY2026 財報 / SEC 文件為準,參考股價約 $389(2026/08 初)。
+</div>
+
+<div class="footer">
+  一頁研究報告 · AVGO 易讀版 · 資料截至 2026/08/07<br>
+  框架整理自《你不是缺股票資訊,你是缺一套研究股票的方法》—— 大叔美股筆記<br>
+  資料來源:Broadcom Q2 FY2026 財報與法說會、SEC 文件、產業研究;即時股價圖由 TradingView 提供<br>
+  本工具僅供個人研究流程管理,不構成投資建議
+</div>
+
+</body>
+</html>
