@@ -2,16 +2,19 @@
 <!--
   ============================================================
   個股報告範本(易讀版 · 12 問框架)
+  架構:一個類股一個資料夾(例 ai-optics/、chip-ip/),個股頁放在資料夾內,
+  共用樣式在根目錄 assets/report.css(資料夾內頁面用 ../assets/report.css)。
   新增一檔的步驟:
-   1. 複製本檔 → 命名 <ticker>-report.html(小寫,例如 nvda-report.html)
-   2. 全檔搜尋取代占位符:{{TICKER}} {{COMPANY}} {{EXCHANGE}} {{SECTOR}}
-      {{ONELINE}} {{DATE}}  以及各數字/文字
+   1. 放到對應類股資料夾,命名 <ticker>-report.html(小寫,例 nvda-report.html)。
+      要開新類股就先建一個資料夾 + 一個 index.html(類股首頁)。
+   2. 全檔搜尋取代占位符:{{TICKER}} {{TICKER_LC}} {{COMPANY}} {{EXCHANGE}}
+      {{SECTOR}} {{SECTOR_NAME}} {{DATE}} 以及各數字/文字。
    3. banner 變體三選一:class="banner wait"(觀望)/ "banner hot"(危險)
-      / "banner good"(正向)
-   4. TradingView symbol 改成 {{EXCHANGE}}:{{TICKER}}(例 NASDAQ:NVDA)
-   5. 導覽列:在本檔與其他所有頁的 <nav> 各加一個 <a>,並到
-      stocks.html 加一張卡、compare-report.html 加一欄
-   6. 樣式一律吃 assets/report.css,不要在頁面內寫 CSS(共用單一來源)
+      / "banner good"(正向)。
+   4. TradingView symbol 改成 {{EXCHANGE}}:{{TICKER}}(例 NASDAQ:NVDA)。
+   5. 導覽列:在本類股資料夾內各頁 <nav> 加一個 <a>;到該類股 index.html 加一張卡、
+      compare 頁加一欄;到 data/coverage.json 的對應 sector.stocks 加一筆。
+   6. 樣式一律吃 ../assets/report.css,不要在頁面內寫 CSS(共用單一來源)。
   ============================================================
 -->
 <html lang="zh-TW">
@@ -19,20 +22,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{TICKER}} 研究報告 · 易讀版</title>
-<link rel="stylesheet" href="assets/report.css">
+<link rel="stylesheet" href="../assets/report.css">
 </head>
 <body>
 
-<!-- 導覽列:複製其他頁的 <nav>,把本檔設 class="active" -->
+<!-- 導覽列:← 總覽(根目錄) + 本類股首頁 + 同類股各個股(本檔設 class="active")+ 對照 -->
 <div class="nav">
-  <a href="stocks.html">總覽</a>
-  <a href="aeva-report.html">AEVA</a>
-  <a href="cohr-report.html">COHR</a>
-  <a href="lite-report.html">LITE</a>
-  <a href="mrvl-report.html">MRVL</a>
-  <a href="avgo-report.html">AVGO</a>
+  <a href="../stocks.html">← 總覽</a>
+  <a href="index.html">{{SECTOR_NAME}}</a>
   <a href="{{TICKER_LC}}-report.html" class="active">{{TICKER}}</a>
-  <a href="compare-report.html">對照</a>
+  <!-- 同類股其他個股與 compare 頁請比照加入 -->
 </div>
 
 <div class="header">
