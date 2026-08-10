@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股研究框架 · 一頁研究表</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --border: #252a3a;
+    --text: #e2e6f0;
+    --muted: #6b7694;
+    --muted2: #4a5270;
+    --red: #e85555;
+    --green: #3dba7a;
+    --gold: #d4a843;
+    --blue: #4a9eff;
+    --purple: #9d7cf0;
+    --red-dim: rgba(232,85,85,0.08);
+    --green-dim: rgba(61,186,122,0.08);
+    --gold-dim: rgba(212,168,67,0.08);
+    --blue-dim: rgba(74,158,255,0.07);
+    --purple-dim: rgba(157,124,240,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px 16px 60px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Nav */
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .nav a {
+    flex: 1;
+    text-align: center;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav a.active { color: var(--blue); border-color: rgba(74,158,255,0.35); background: var(--blue-dim); }
+  .nav a:hover { color: var(--text); }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 20px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--purple-dim);
+    border: 1px solid rgba(157,124,240,0.25);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--purple);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 { font-size: 21px; font-weight: 600; margin-bottom: 8px; }
+  .header p { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+  .header .quote {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted2);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    background: var(--surface2);
+    color: var(--blue);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  /* Input rows */
+  .input-row {
+    display: flex;
+    align-items: center;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .input-row:last-child { border-bottom: none; }
+  .input-info { flex: 1; }
+  .input-label { font-size: 13px; font-weight: 500; }
+  .input-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .input-field {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    width: 130px;
+    text-align: right;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-field.text-left { text-align: left; }
+  .input-field:focus { border-color: var(--blue); }
+  .input-field::placeholder { color: var(--muted2); font-weight: 400; }
+
+  /* Research process stepper */
+  .flow {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .flow-step .fnum {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted2);
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .flow-step .fline {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); flex-shrink: 0;
+  }
+  .flow-step strong { color: var(--text); font-weight: 500; }
+  .flow-step .fdesc { color: var(--muted2); font-size: 11px; }
+  .flow-arrow { color: var(--muted2); font-size: 10px; padding-left: 26px; }
+
+  /* Question block */
+  .q-block {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-block:last-child { border-bottom: none; }
+  .q-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .q-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--blue);
+    background: var(--blue-dim);
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .q-title { font-size: 13px; font-weight: 600; }
+  .q-hint { font-size: 11.5px; color: var(--muted); margin: 4px 0 8px; line-height: 1.6; }
+  textarea.q-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 11px;
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    min-height: 46px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  textarea.q-input:focus { border-color: var(--blue); }
+  textarea.q-input.filled { border-color: rgba(61,186,122,0.3); }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+  .progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-head .plabel { font-size: 12px; color: var(--muted); }
+  .progress-head .pval { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.3s, background 0.3s; width: 0; }
+
+  /* Valuation table */
+  .val-grid {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    gap: 0;
+  }
+  .val-header {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .val-header span {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 10px 12px;
+  }
+  .val-header span:not(:first-child) { text-align: center; }
+  .val-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .val-row:last-child { border-bottom: none; }
+  .val-scenario {
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .val-scenario .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-bear { background: var(--red); }
+  .dot-base { background: var(--gold); }
+  .dot-bull { background: var(--green); }
+  .val-cell { padding: 8px 10px; }
+  .val-cell input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+    outline: none;
+  }
+  .val-cell input:focus { border-color: var(--blue); }
+
+  /* Verdict / result */
+  .verdict {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+  .verdict-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .verdict-row:last-of-type { border-bottom: none; }
+  .verdict-key { font-size: 12.5px; color: var(--muted); }
+  .verdict-val { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; }
+  .big-verdict {
+    text-align: center;
+    padding: 16px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .big-verdict .sub { font-size: 12px; font-weight: 400; margin-top: 6px; opacity: 0.85; }
+  .bv-good { background: var(--green-dim); border: 1px solid rgba(61,186,122,0.25); color: var(--green); }
+  .bv-wait { background: var(--gold-dim); border: 1px solid rgba(212,168,67,0.25); color: var(--gold); }
+  .bv-avoid { background: var(--red-dim); border: 1px solid rgba(232,85,85,0.25); color: var(--red); }
+  .bv-neutral { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+
+  /* Info sources tiers */
+  .tier { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .tier:last-child { border-bottom: none; }
+  .tier-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .tier1 { color: var(--green); background: var(--green-dim); }
+  .tier2 { color: var(--gold); background: var(--gold-dim); }
+  .tier3 { color: var(--muted); background: var(--surface2); }
+  .tier-title { font-size: 13px; font-weight: 600; }
+  .tier-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .tier-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--surface2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--text);
+  }
+
+  /* Checklist */
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 13px 16px; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--muted2);
+    border-radius: 5px; flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-size: 12px; color: transparent;
+  }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+  .check-main { font-size: 13px; font-weight: 500; }
+  .check-item.done .check-main { color: var(--muted); text-decoration: line-through; }
+  .check-explain { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.55; }
+
+  /* Buttons */
+  .actions { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn:hover { border-color: var(--blue); }
+  .btn-primary { background: var(--blue-dim); border-color: rgba(74,158,255,0.3); color: var(--blue); }
+  .btn-danger:hover { border-color: var(--red); color: var(--red); }
+
+  .notice {
+    background: var(--gold-dim);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+  .notice strong { color: var(--gold); }
+
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--muted2);
+    line-height: 1.8;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    opacity: 0; pointer-events: none;
+    transition: all 0.25s;
+    z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media print {
+    .nav, .actions, .flow-arrow { display: none; }
+    body { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="research.html" class="active">研究框架</a>
+  <a href="index.html">停損停利</a>
+</div>
+
+<div class="header">
+  <div class="header-badge">美股研究框架</div>
+  <h1>一頁研究表</h1>
+  <p>你不是缺股票資訊，你是缺一套研究股票的方法。<br>先研究生意，再研究財報；先理解產業，再算估值。</p>
+  <div class="quote">「研究的目的，不是讓你對每一檔股票都有意見，<br>而是讓你知道，哪些股票值得你有意見。」</div>
+</div>
+
+<!-- Company basics -->
+<div class="section-label"><span class="num">0</span>基本資料</div>
+<div class="card">
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">公司 / 代號</div>
+      <div class="input-hint">例如 NVDA、TSMC</div>
+    </div>
+    <input class="input-field text-left" id="f-ticker" type="text" placeholder="NVDA" data-key="ticker">
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">研究所屬產業</div>
+      <div class="input-hint">先研究產業，再回頭研究公司</div>
+    </div>
+    <input class="input-field text-left" id="f-sector" type="text" placeholder="AI / 半導體" data-key="sector">
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">目前股價</div>
+      <div class="input-hint">用來計算與合理價的預期差</div>
+    </div>
+    <input class="input-field" id="f-price" type="number" step="0.01" placeholder="0.00" data-key="price">
+  </div>
+</div>
+
+<!-- Research process -->
+<div class="section-label"><span class="num">1</span>大叔的研究順序</div>
+<div class="flow">
+  <div class="flow-step"><span class="fnum">01</span><span class="fline"></span><span><strong>公司做什麼</strong> <span class="fdesc">— 三句話講清楚它靠什麼賺錢</span></span></div>
+  <div class="flow-step"><span class="fnum">02</span><span class="fline"></span><span><strong>產業結構與 TAM</strong> <span class="fdesc">— 週期、定價權、競爭格局</span></span></div>
+  <div class="flow-step"><span class="fnum">03</span><span class="fline"></span><span><strong>競爭者與護城河</strong> <span class="fdesc">— 別人為什麼搶不走</span></span></div>
+  <div class="flow-step"><span class="fnum">04</span><span class="fline"></span><span><strong>過去 3–5 年財務</strong> <span class="fdesc">— 長期趨勢</span></span></div>
+  <div class="flow-step"><span class="fnum">05</span><span class="fline"></span><span><strong>最近 4 季財報</strong> <span class="fdesc">— 營收品質、營業槓桿、現金流、資產負債表</span></span></div>
+  <div class="flow-step"><span class="fnum">06</span><span class="fline"></span><span><strong>法說 Q&amp;A</strong> <span class="fdesc">— 管理層有沒有答非所問</span></span></div>
+  <div class="flow-step"><span class="fnum">07</span><span class="fline"></span><span><strong>競爭對手交叉驗證</strong> <span class="fdesc">— 對手財報常比公司自己更誠實</span></span></div>
+  <div class="flow-step"><span class="fnum">08</span><span class="fline"></span><span><strong>未來 12–24 個月催化劑</strong></span></div>
+  <div class="flow-step"><span class="fnum">09</span><span class="fline"></span><span><strong>Bear / Base / Bull 估值</strong></span></div>
+  <div class="flow-step"><span class="fnum">10</span><span class="fline"></span><span><strong>Thesis Break</strong> <span class="fdesc">— 什麼情況代表我錯了</span></span></div>
+  <div class="flow-step"><span class="fnum">11</span><span class="fline"></span><span><strong>倉位大小</strong></span></div>
+  <div class="flow-step"><span class="fnum">12</span><span class="fline"></span><span><strong>最後才決定買不買</strong> <span class="fdesc">— 研究 ≠ 一定要買</span></span></div>
+</div>
+
+<!-- Progress -->
+<div class="section-label"><span class="num">2</span>一頁研究表 · 12 問</div>
+<div class="progress-wrap">
+  <div class="progress-head">
+    <span class="plabel">研究完成度（填不完，先不要買）</span>
+    <span class="pval" id="progress-val">0 / 12</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="card" id="questions"></div>
+
+<!-- Valuation -->
+<div class="section-label"><span class="num">3</span>三情境估值 · 機率加權</div>
+<div class="card">
+  <div class="val-header">
+    <span>情境</span><span>合理價</span><span>機率 %</span>
+  </div>
+  <div class="val-row">
+    <div class="val-scenario"><span class="dot dot-bear"></span>Bear</div>
+    <div class="val-cell"><input type="number" id="v-bear-price" step="0.01" placeholder="0.00" data-key="bearPrice"></div>
+    <div class="val-cell"><input type="number" id="v-bear-prob" step="1" placeholder="25" data-key="bearProb"></div>
+  </div>
+  <div class="val-row">
+    <div class="val-scenario"><span class="dot dot-base"></span>Base</div>
+    <div class="val-cell"><input type="number" id="v-base-price" step="0.01" placeholder="0.00" data-key="basePrice"></div>
+    <div class="val-cell"><input type="number" id="v-base-prob" step="1" placeholder="50" data-key="baseProb"></div>
+  </div>
+  <div class="val-row">
+    <div class="val-scenario"><span class="dot dot-bull"></span>Bull</div>
+    <div class="val-cell"><input type="number" id="v-bull-price" step="0.01" placeholder="0.00" data-key="bullPrice"></div>
+    <div class="val-cell"><input type="number" id="v-bull-prob" step="1" placeholder="25" data-key="bullProb"></div>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-row">
+    <span class="verdict-key">機率合計</span>
+    <span class="verdict-val" id="r-probsum">—</span>
+  </div>
+  <div class="verdict-row">
+    <span class="verdict-key">機率加權合理價</span>
+    <span class="verdict-val" id="r-weighted">—</span>
+  </div>
+  <div class="verdict-row">
+    <span class="verdict-key">目前股價</span>
+    <span class="verdict-val" id="r-current">—</span>
+  </div>
+  <div class="verdict-row">
+    <span class="verdict-key">預期差（上檔／下檔）</span>
+    <span class="verdict-val" id="r-gap">—</span>
+  </div>
+  <div class="verdict-row">
+    <span class="verdict-key">風險報酬比（上檔÷下檔）</span>
+    <span class="verdict-val" id="r-rr">—</span>
+  </div>
+  <div class="big-verdict bv-neutral" id="big-verdict">填入三情境與股價後自動判斷</div>
+</div>
+
+<!-- Position sizing -->
+<div class="section-label"><span class="num">4</span>倉位大小</div>
+<div class="card">
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">資產負債表能撐過景氣下行？</div>
+      <div class="input-hint">沒獲利 / 燒錢 / 靠增資的公司，部位不能跟龍頭一樣大</div>
+    </div>
+    <select class="input-field text-left" id="f-bs" data-key="bsHealth" style="width:150px;">
+      <option value="strong">穩健：淨現金</option>
+      <option value="ok">尚可：可自給</option>
+      <option value="weak">脆弱：靠增資</option>
+    </select>
+  </div>
+  <div class="input-row">
+    <div class="input-info">
+      <div class="input-label">研究信心 / 完成度</div>
+      <div class="input-hint">12 問答得越完整，才配得上越大部位</div>
+    </div>
+    <select class="input-field text-left" id="f-conviction" data-key="conviction" style="width:150px;">
+      <option value="high">高：全部答得出</option>
+      <option value="mid">中：大致清楚</option>
+      <option value="low">低：還看不懂</option>
+    </select>
+  </div>
+  <div class="input-row" style="background:var(--surface2);">
+    <div class="input-info">
+      <div class="input-label" style="color:var(--purple);">建議部位傾向</div>
+    </div>
+    <div class="verdict-val" id="r-position" style="color:var(--purple);">—</div>
+  </div>
+</div>
+
+<!-- Info sources -->
+<div class="section-label"><span class="num">5</span>資訊來源三級制</div>
+<div class="card">
+  <div class="tier">
+    <div class="tier-head"><span class="tier-badge tier1">第一級</span><span class="tier-title">公司官方資料（Primary Source，一定先看）</span></div>
+    <div class="tier-body"><code>10-K</code> <code>10-Q</code> <code>Earnings Release</code> <code>Investor Presentation</code> <code>Earnings Call Transcript</code> <code>Investor Day</code> <code>SEC Filings</code></div>
+  </div>
+  <div class="tier">
+    <div class="tier-head"><span class="tier-badge tier2">第二級</span><span class="tier-title">產業資料（交叉驗證）</span></div>
+    <div class="tier-body">看整條價值鏈與對手，不要只聽一家：例如半導體交叉看 TSMC / NVIDIA / AMD / Micron / ASML / AMAT / LRCX，加上 TrendForce、SemiAnalysis（連空方論點也要懂）。對手全部說需求強 → 可信度高；只有你這家說弱 → 可能是市占掉了。</div>
+  </div>
+  <div class="tier">
+    <div class="tier-head"><span class="tier-badge tier3">第三級</span><span class="tier-title">新聞（更新論點，不是建立論點）</span></div>
+    <div class="tier-body">看到新聞先問：有沒有改變 Revenue / Margin / TAM / Market Share / Valuation？都沒有，大多只是 noise。不要聽他說什麼，要看他做什麼。</div>
+  </div>
+</div>
+
+<!-- Pre-buy 4 questions -->
+<div class="section-label"><span class="num">6</span>下單前的四個問題</div>
+<div class="card" id="prebuy"></div>
+
+<div class="notice">
+  <strong>提醒：</strong>先選一個產業研究深，不要一次追 80 檔。研究第一家可能要 20 小時，第五家只要 5 小時——有複利的不只是錢，還有產業知識。研究 20 小時後最好的結論可能是「公司很好，但現在太貴」或「我其實看不懂」，這都是成功的研究結果。
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" id="btn-save">儲存到本機</button>
+  <button class="btn" id="btn-export">匯出 Markdown</button>
+  <button class="btn" id="btn-print">列印 / PDF</button>
+  <button class="btn btn-danger" id="btn-clear">清空</button>
+</div>
+
+<div class="footer">
+  美股研究框架 · 一頁研究表<br>
+  方法整理自《你不是缺股票資訊，你是缺一套研究股票的方法》—— 大叔美股筆記<br>
+  本工具僅供個人研究流程管理，不構成投資建議
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---- 12 questions (一頁研究表) ----
+  const QUESTIONS = [
+    { key: 'business',  tag: 'Business',     title: '公司到底靠什麼賺錢？',
+      hint: '用三句話講清楚：①它賣什麼？市場多大、故事在哪？②誰在付錢？消費者、政府還是企業？③客戶為什麼不能輕易換掉它？' },
+    { key: 'tam',       tag: 'TAM',          title: '市場還能成長多久？',
+      hint: 'TAM 是判斷成長空間，不是簡報用的。若已拿 70% 市占、市場每年只成長 3%，就很難維持 30% 營收增長。' },
+    { key: 'moat',      tag: 'Moat',         title: '為什麼競爭對手搶不走？',
+      hint: '護城河可能來自技術、品牌、規模、網路效應、資料、切換成本、專利、供應鏈控制、法規壁壘。「產品很好」還不夠，要好到別人無法取代。' },
+    { key: 'revenue',   tag: 'Revenue',      title: '成長來自哪裡？',
+      hint: '哪個部門/產品/地區在長？來自價格還是數量？organic 還是併購？一次性還是 recurring？同樣 +20%，品質可以完全不同。' },
+    { key: 'margin',    tag: 'Margin',       title: '利潤率是否改善？（營業槓桿）',
+      hint: 'Gross → Operating → FCF Margin 一路看。營收 +20%、EPS +40% 代表規模優勢開始轉成獲利，這是 Operating Leverage。' },
+    { key: 'fcf',       tag: 'FCF',          title: '現金有沒有真的進來？',
+      hint: 'EPS 是會計結果，現金流較難長期演戲。看 OCF / FCF / CapEx / SBC / 應收帳款 / 庫存。庫存暴增而營收沒跟上、應收成長遠快於營收 → 警訊。' },
+    { key: 'balance',   tag: 'Balance Sheet',title: '能不能撐過景氣下行？',
+      hint: '牛市沒人看，熊市人人看。Cash / Debt / Net debt / 利息 / 到期結構 / 流動比 / 是否需要增資。中小成長股尤其重要。' },
+    { key: 'competition',tag:'Competition',  title: '最大競爭者是誰？',
+      hint: '寡占還是削價競爭？好產業普通公司也賺錢，爛產業再優秀也天天打價格戰。用對手財報交叉驗證你這家的說法。' },
+    { key: 'catalyst',  tag: 'Catalyst',     title: '未來 12 個月什麼事會讓市場重新定價？',
+      hint: '新產品、擴產、財測上修、新客戶、法規、產業週期反轉……把催化劑與時點寫下來。' },
+    { key: 'expectations',tag:'Expectations',title: '現在股價已經反映什麼？',
+      hint: 'Expectations Gap 預期差：市場預期成長 30%、你研究後認為 45% → 有預期差。若市場已預期 70%、你只認為 45%，即使公司很好股票也可能跌。' },
+    { key: 'valuation', tag: 'Valuation',    title: 'Bear / Base / Bull 各值多少？',
+      hint: '填在下方第 3 區。三情境比單一目標價有意義，因為真實世界不是 Excel 裡的一格。' },
+    { key: 'thesisbreak',tag:'Thesis Break', title: '什麼事情發生代表我錯了？',
+      hint: '進場前就寫好，例如：資料中心營收跌破 15%、連兩季訂單下降、毛利率持續惡化、大客戶取消、市占明顯流失。不先寫，跌 40% 後大腦會自動幫你編故事。' },
+  ];
+
+  const PREBUY = [
+    { key: 'pb1', main: '我為什麼買？', explain: '寫下明確的投資論點，寫不出來就是感覺，不是策略。' },
+    { key: 'pb2', main: '市場現在已經反映了什麼？', explain: '好公司不一定是好股票；看預期差，不要追已經反映完的完美成長。' },
+    { key: 'pb3', main: '什麼情況代表我錯？', explain: '對應上方的 Thesis Break，觸發了就承認，不要凹單。' },
+    { key: 'pb4', main: '如果我真的錯了，最多會損失多少？', explain: '先想最大下檔與部位大小，再想上檔。' },
+  ];
+
+  const STORE_KEY = 'unclestock_research_v1';
+  let state = {};
+
+  // ---- Build questions ----
+  const qWrap = document.getElementById('questions');
+  QUESTIONS.forEach(q => {
+    const div = document.createElement('div');
+    div.className = 'q-block';
+    div.innerHTML = `
+      <div class="q-head"><span class="q-tag">${q.tag}</span><span class="q-title">${q.title}</span></div>
+      <div class="q-hint">${q.hint}</div>
+      <textarea class="q-input" data-qkey="${q.key}" rows="2" placeholder="寫下你的研究結論…"></textarea>`;
+    qWrap.appendChild(div);
+  });
+
+  const pbWrap = document.getElementById('prebuy');
+  PREBUY.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'q-block';
+    div.innerHTML = `
+      <div class="q-head"><span class="q-title">${p.main}</span></div>
+      <div class="q-hint">${p.explain}</div>
+      <textarea class="q-input" data-qkey="${p.key}" rows="2" placeholder="寫下你的答案…"></textarea>`;
+    pbWrap.appendChild(div);
+  });
+
+  // ---- Helpers ----
+  const $ = id => document.getElementById(id);
+  const num = v => { const n = parseFloat(v); return isNaN(n) ? null : n; };
+  function toast(msg) {
+    const t = $('toast'); t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  function collect() {
+    const s = {};
+    document.querySelectorAll('[data-key]').forEach(el => s[el.dataset.key] = el.value);
+    document.querySelectorAll('[data-qkey]').forEach(el => s[el.dataset.qkey] = el.value);
+    return s;
+  }
+
+  function apply(s) {
+    document.querySelectorAll('[data-key]').forEach(el => { if (s[el.dataset.key] != null) el.value = s[el.dataset.key]; });
+    document.querySelectorAll('[data-qkey]').forEach(el => { if (s[el.dataset.qkey] != null) el.value = s[el.dataset.qkey]; });
+  }
+
+  // ---- Compute ----
+  function compute() {
+    // progress: 12 questions (business..thesisbreak). valuation counts as filled if all 3 base prices set
+    const qKeys = QUESTIONS.map(q => q.key);
+    let filled = 0;
+    qKeys.forEach(k => {
+      if (k === 'valuation') {
+        if (num($('v-bear-price').value) != null && num($('v-base-price').value) != null && num($('v-bull-price').value) != null) filled++;
+      } else {
+        const el = document.querySelector(`[data-qkey="${k}"]`);
+        if (el && el.value.trim().length > 0) filled++;
+      }
+    });
+    // mark filled textareas
+    document.querySelectorAll('[data-qkey]').forEach(el => {
+      el.classList.toggle('filled', el.value.trim().length > 0);
+    });
+    $('progress-val').textContent = filled + ' / 12';
+    const pct = filled / 12 * 100;
+    const fill = $('progress-fill');
+    fill.style.width = pct + '%';
+    fill.style.background = filled === 12 ? 'var(--green)' : (filled >= 8 ? 'var(--blue)' : 'var(--gold)');
+
+    // valuation
+    const bp = num($('v-bear-price').value), sp = num($('v-base-price').value), lp = num($('v-bull-price').value);
+    const bpr = num($('v-bear-prob').value) || 0, spr = num($('v-base-prob').value) || 0, lpr = num($('v-bull-prob').value) || 0;
+    const price = num($('f-price').value);
+    const probSum = bpr + spr + lpr;
+
+    $('r-probsum').textContent = probSum ? probSum + '%' : '—';
+    $('r-probsum').style.color = (probSum === 100 || probSum === 0) ? 'var(--text)' : 'var(--gold)';
+
+    let weighted = null;
+    if (bp != null && sp != null && lp != null && probSum > 0) {
+      weighted = (bp * bpr + sp * spr + lp * lpr) / probSum;
+      $('r-weighted').textContent = weighted.toFixed(2);
+    } else { $('r-weighted').textContent = '—'; }
+
+    $('r-current').textContent = price != null ? price.toFixed(2) : '—';
+
+    // gap: upside to weighted, downside to bear
+    let upside = null, downside = null, rr = null;
+    if (weighted != null && price) {
+      upside = (weighted - price) / price * 100;
+      $('r-gap').innerHTML = `<span style="color:${upside>=0?'var(--green)':'var(--red)'}">${upside>=0?'+':''}${upside.toFixed(1)}%</span>`;
+    } else { $('r-gap').textContent = '—'; }
+
+    if (bp != null && lp != null && price) {
+      const up = (lp - price);            // upside to bull
+      const down = (price - bp);          // downside to bear
+      if (down > 0) {
+        rr = up / down;
+        $('r-rr').textContent = rr.toFixed(2) + ' : 1';
+        $('r-rr').style.color = rr >= 3 ? 'var(--green)' : (rr >= 1.5 ? 'var(--gold)' : 'var(--red)');
+      } else if (up > 0) {
+        $('r-rr').textContent = '下檔為零 (現價≤Bear)';
+        $('r-rr').style.color = 'var(--green)';
+      } else { $('r-rr').textContent = '—'; }
+    } else { $('r-rr').textContent = '—'; }
+
+    // big verdict
+    const bv = $('big-verdict');
+    bv.className = 'big-verdict bv-neutral';
+    if (weighted == null || !price) {
+      bv.textContent = '填入三情境與股價後自動判斷';
+    } else if (filled < 12) {
+      bv.className = 'big-verdict bv-wait';
+      bv.innerHTML = `研究還沒完成（${filled}/12）<div class="sub">一頁研究表填不完，先不要買——不是股票不好，是研究還沒做完。</div>`;
+    } else if (upside >= 20 && (rr == null || rr >= 2)) {
+      bv.className = 'big-verdict bv-good';
+      bv.innerHTML = `值得買入 · 有預期差<div class="sub">上檔 +${upside.toFixed(0)}%，風險報酬比有利。以合理價格買優秀公司，勝過以優秀價格買平庸公司。</div>`;
+    } else if (upside <= -10) {
+      bv.className = 'big-verdict bv-avoid';
+      bv.innerHTML = `太貴了 · 市場已反映<div class="sub">現價高於加權合理價 ${Math.abs(upside).toFixed(0)}%。好公司 ≠ 好股票，未來可能已經被 price in。</div>`;
+    } else {
+      bv.className = 'big-verdict bv-wait';
+      bv.innerHTML = `合理區間 · 耐心等待<div class="sub">預期差不明顯（${upside>=0?'+':''}${upside.toFixed(0)}%）。等更好的價格或更強的催化劑，不必勉強進場。</div>`;
+    }
+
+    // position sizing
+    const bs = $('f-bs').value, conv = $('f-conviction').value;
+    let posText;
+    if (bs === 'weak' || conv === 'low') {
+      posText = '小 · 試探部位';
+    } else if (bs === 'strong' && conv === 'high') {
+      posText = '大 · 核心部位';
+    } else {
+      posText = '中 · 一般部位';
+    }
+    $('r-position').textContent = posText;
+  }
+
+  // ---- Persistence ----
+  function save() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(collect()));
+    toast('已儲存到本機 ✓');
+  }
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) { apply(JSON.parse(raw)); }
+    } catch (e) {}
+    compute();
+  }
+  function clearAll() {
+    if (!confirm('確定清空所有欄位？此動作無法復原。')) return;
+    localStorage.removeItem(STORE_KEY);
+    document.querySelectorAll('[data-key], [data-qkey]').forEach(el => {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0; else el.value = '';
+    });
+    compute();
+    toast('已清空');
+  }
+
+  // ---- Export Markdown ----
+  function exportMd() {
+    const s = collect();
+    const g = k => (s[k] || '').trim() || '—';
+    let md = `# 一頁研究表：${g('ticker')}\n\n`;
+    md += `- 產業：${g('sector')}\n- 目前股價：${g('price')}\n\n`;
+    md += `## 12 問\n\n`;
+    QUESTIONS.forEach((q, i) => {
+      if (q.key === 'valuation') return;
+      md += `**${i+1}. ${q.tag} — ${q.title}**\n\n${g(q.key)}\n\n`;
+    });
+    md += `## 三情境估值\n\n`;
+    md += `| 情境 | 合理價 | 機率 |\n|---|---|---|\n`;
+    md += `| Bear | ${g('bearPrice')} | ${g('bearProb')}% |\n`;
+    md += `| Base | ${g('basePrice')} | ${g('baseProb')}% |\n`;
+    md += `| Bull | ${g('bullPrice')} | ${g('bullProb')}% |\n\n`;
+    md += `- 機率加權合理價：${$('r-weighted').textContent}\n`;
+    md += `- 預期差：${$('r-gap').textContent.replace(/<[^>]+>/g,'')}\n`;
+    md += `- 風險報酬比：${$('r-rr').textContent}\n`;
+    md += `- 建議部位：${$('r-position').textContent}\n\n`;
+    md += `## 下單前四問\n\n`;
+    PREBUY.forEach(p => { md += `**${p.main}**\n\n${g(p.key)}\n\n`; });
+    md += `---\n_方法整理自《你不是缺股票資訊，你是缺一套研究股票的方法》— 大叔美股筆記_\n`;
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `research_${(s.ticker||'stock').replace(/[^\w]/g,'')}.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('已匯出 Markdown ✓');
+  }
+
+  // ---- Wire up ----
+  document.addEventListener('input', compute);
+  document.addEventListener('change', compute);
+  $('btn-save').addEventListener('click', save);
+  $('btn-export').addEventListener('click', exportMd);
+  $('btn-print').addEventListener('click', () => window.print());
+  $('btn-clear').addEventListener('click', clearAll);
+
+  load();
+</script>
+</body>
+</html>

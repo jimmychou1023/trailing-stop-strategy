@@ -38,6 +38,28 @@
     margin: 0 auto;
   }
 
+  /* Nav */
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .nav a {
+    flex: 1;
+    text-align: center;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav a.active { color: var(--blue); border-color: rgba(74,158,255,0.35); background: var(--blue-dim); }
+  .nav a:hover { color: var(--text); }
+
   /* Header */
   .header {
     text-align: center;
@@ -454,6 +476,11 @@
 </style>
 </head>
 <body>
+
+<div class="nav">
+  <a href="research.html">研究框架</a>
+  <a href="index.html" class="active">停損停利</a>
+</div>
 
 <div class="header">
   <div class="header-badge">移動停損停利策略</div>
