@@ -28,8 +28,8 @@
       "stocks": [
         { "ticker": "RMBS", "exchange": "NASDAQ", "company": "Rambus",       "file": "chip-ip/rmbs-report.html", "verdict": "回檔·偏正向",     "position": "中·一般", "rr": "2.60", "next_earnings": "約 10–11 月" },
         { "ticker": "ARM",  "exchange": "NASDAQ", "company": "Arm Holdings",  "file": "chip-ip/arm-report.html",  "verdict": "回檔轉佳·分批",   "position": "中·一般", "rr": "2.39", "next_earnings": "約 11 月" },
-        { "ticker": "CEVA", "exchange": "NASDAQ", "company": "CEVA",          "file": "chip-ip/ceva-report.html", "verdict": "小型·試探",       "position": "小·試探", "rr": "1.13", "next_earnings": "約 11 月" },
-        { "ticker": "AIP",  "exchange": "NASDAQ", "company": "Arteris",       "file": "chip-ip/aip-report.html",  "verdict": "合理區間·觀望",   "position": "小·試探", "rr": "1.07", "next_earnings": "約 11 月" }
+        { "ticker": "CEVA", "exchange": "NASDAQ", "company": "CEVA",          "file": "chip-ip/ceva-report.html", "verdict": "回檔轉佳·試探", "position": "小·試探", "rr": "2.37", "next_earnings": "約 11 月" },
+        { "ticker": "AIP",  "exchange": "NASDAQ", "company": "Arteris",       "file": "chip-ip/aip-report.html",  "verdict": "回檔轉佳·試探",   "position": "小·試探", "rr": "2.80", "next_earnings": "約 11 月" }
       ]
     }
   ]
