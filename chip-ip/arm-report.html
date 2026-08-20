@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARM 研究報告 · 易讀版</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body>
+
+<div class="nav">
+  <a href="../stocks.html">← 總覽</a>
+  <a href="index.html">半導體 IP</a>
+  <a href="aip-report.html">AIP</a>
+  <a href="arm-report.html" class="active">ARM</a>
+  <a href="ceva-report.html">CEVA</a>
+  <a href="rmbs-report.html">RMBS</a>
+  <a href="compare-report.html">對照</a>
+</div>
+
+<div class="header">
+  <span class="badge">一頁研究報告 · 易讀版</span>
+  <h1><span class="tk">ARM</span>　Arm Holdings</h1>
+  <div class="sub">CPU 架構 IP / 授權 + 權利金 · Nasdaq 上市</div>
+  <div class="desc">用「大叔美股筆記」的 12 問框架研究這檔 <b>半導體 IP 王者</b>。資料截至 <b>2026/08/14</b>,最新財報為 <b>Q1 FY2027</b>(2026/07/29 發布);下一份 <b>Q2 FY27 財報約 11 月</b>。</div>
+  <span class="asof">資料截至 2026/08/14 · 下次財報約 11 月</span>
+</div>
+
+<div class="banner wait">
+  <div class="tag">研究結論</div>
+  <h2>IP 龍頭、成長強 · 但估值極高 · 分批/觀望</h2>
+  <p><b>幾乎所有手機、越來越多 AI 資料中心晶片都用 Arm 架構</b>——這是最正宗的 IP 龍頭:授權 + 每顆晶片權利金、Armv9 與 CSS 拉高每顆權利金。FY26 營收 +23%、Q1 FY27 $1.29B 續超預期。但股價自 ATH $439 回落到約 <b>$280</b>,估值仍極高(P/S ~55x+)。機率加權合理價約 <b>$294</b>(上檔 +5%),<b>報酬風險比約 1.20:1</b>。生意一流、但價格很貴——<b>分批、逢回檔布局,不追高。</b></p>
+</div>
+
+<div class="compare">
+  <b>在半導體 IP 中的定位:</b>AIP(NoC 互連 IP)、CEVA(DSP/連接 IP)是<b>單一環節</b>的 IP 商;<b>ARM 是整個 SoC 的「大腦」——CPU 架構 IP 標準</b>,規模與生態系遠大於同儕,幾乎是產業基礎設施。缺點:<b>估值也最貴</b>。
+</div>
+
+<!-- 0 基本資料 -->
+<div class="sec"><span class="n">0</span>基本資料快照 <span style="font-size:12px;color:var(--muted);font-weight:600;">· 2026/08/14</span></div>
+<div class="grid">
+  <div class="stat"><div class="k">目前股價</div><div class="v">$280</div><div class="h"><span class="dn">↓</span> 自 ATH $439 回檔約 36%</div></div>
+  <div class="stat"><div class="k">市值</div><div class="v">≈$290B</div><div class="h">巨型 IP 龍頭</div></div>
+  <div class="stat"><div class="k">FY2026 營收</div><div class="v green">$4.92B</div><div class="h">年增 +22.8%</div></div>
+  <div class="stat"><div class="k">Q1 FY27 營收</div><div class="v green">$1.29B</div><div class="h">優於預期($1.27B)</div></div>
+  <div class="stat"><div class="k">權利金營收</div><div class="v green">+22% YoY</div><div class="h">Armv9 / CSS 拉高每顆權利金</div></div>
+  <div class="stat"><div class="k">估值(P/S)</div><div class="v red">~55x+</div><div class="h">forward P/E 數十倍高檔</div></div>
+  <div class="stat"><div class="k">分析師目標價</div><div class="v">≈$288</div><div class="h">平均「買進」</div></div>
+  <div class="stat"><div class="k">下次財報</div><div class="v amber">約 11 月</div><div class="h">Q2 FY27(會計年度 3 月底)</div></div>
+</div>
+
+<!-- 走勢圖 -->
+<div class="sec"><span class="n">📈</span>股價走勢(近 12 個月)· 即時</div>
+<div class="chartcard">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+    {"symbol":"NASDAQ:ARM","width":"100%","height":230,"locale":"zh_TW","dateRange":"12M","colorTheme":"light","isTransparent":true,"autosize":false,"chartOnly":false,"noTimeScale":false}
+    </script>
+  </div>
+  <div class="chartnote">即時圖表由 TradingView 提供,反映最新市價(可能與本頁「資料截至 2026/08/14」的數字不同)。若圖表未顯示,多為網路 / 瀏覽器擋第三方元件所致。</div>
+</div>
+
+<!-- 1 12 問 -->
+<div class="sec"><span class="n">1</span>一頁研究表 · 12 問</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Business</span><span class="q-title">1 · 公司靠什麼賺錢?</span></div>
+  <div class="q-hint">賣什麼、誰付錢、客戶為什麼換不掉它。</div>
+  <div class="q-body">
+    Arm 賣的是 <b>CPU 架構與核心 IP</b>(Armv9 指令集、Cortex 核心、Neoverse 伺服器核心、CSS 運算子系統)。商業模式兩塊:<b>①授權金(license)</b>——客戶取得設計權;<b>②權利金(royalty)</b>——每出貨一顆含 Arm IP 的晶片抽成。<br>
+    付錢的是<b>幾乎所有晶片設計商</b>:蘋果、高通、聯發科、以及 AI / 資料中心(NVIDIA Grace、雲端自研晶片)。換不掉的原因:<span class="g">龐大軟體生態系、工具鏈、開發者慣性</span>——換架構等於整個軟體重來,切換成本極高。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">TAM</span><span class="q-title">2 · 市場還能成長多久?</span></div>
+  <div class="q-hint">TAM 是判斷成長空間,不是簡報用的。</div>
+  <div class="q-body">
+    手機已近飽和,但<b>成長引擎轉向 AI 資料中心、車用、以及「每顆權利金」的提升</b>:Armv9 與 CSS 讓 Arm 每顆晶片抽更多(內容價值up)。資料中心 CPU(Neoverse)+ 客戶自研 AI 晶片採 Arm 架構,是新的大 TAM。<br>
+    簡言之:<span class="g">出貨顆數成長趨緩,但「每顆權利金」與資料中心滲透接棒</span>。關鍵在 Armv9/CSS 滲透率與資料中心份額。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Moat</span><span class="q-title">3 · 為什麼對手搶不走?</span></div>
+  <div class="q-hint">好到別人無法取代,才叫護城河。</div>
+  <div class="q-body">
+    護城河<span class="g">極寬</span>:<b>指令集標準地位 + 龐大軟體生態 + 開發工具鏈 + 幾十年客戶關係</b>。換架構的軟體重寫成本讓客戶高度黏著。<br>
+    誠實面:<span class="w">RISC-V(開源指令集)是長期潛在替代</span>,部分客戶在邊緣/特定領域評估;與高通等客戶有過授權訴訟;Arm 也傳自研晶片,可能與客戶競爭。護城河仍寬,但非永不可撼。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Revenue</span><span class="q-title">4 · 成長來自哪裡?</span></div>
+  <div class="q-hint">價格還是數量?一次性還是 recurring?</div>
+  <div class="q-body">
+    <b>FY26 營收 $4.92B(+22.8%);Q1 FY27 $1.29B(優於預期)、權利金 +22%</b>。成長來自<b>權利金(每顆內容價值提升)+ 授權(新專案、CSS)</b>。<br>
+    屬性:權利金是<span class="g">長尾 recurring</span>(晶片賣越久抽越久),授權則隨新設計波動。資料中心與 AI 是加速器。整體能見度高、品質佳。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Margin</span><span class="q-title">5 · 利潤率是否改善?</span></div>
+  <div class="q-hint">Gross → Operating → FCF 一路看營業槓桿。</div>
+  <div class="q-body">
+    IP 模式<b>毛利率極高(~95%+)</b>。營業利益率隨營收放大改善,但 Arm <b>研發投入巨大</b>(要維持架構領先),壓抑短期營業利益率;Q1 FY27 已明確獲利($270M 淨利)。<br>
+    看點:營收成長能否讓營業槓桿持續發揮、把高研發攤薄。長期是「高毛利 + 逐步放大的營業利益」結構。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">FCF</span><span class="q-title">6 · 現金有沒有真的進來?</span></div>
+  <div class="q-hint">EPS 是會計結果,現金流較難長期演戲。</div>
+  <div class="q-body">
+    Arm <b>已獲利、產生正自由現金流</b>,IP 授權/權利金現金品質佳(常有預收)。SoftBank 為大股東。<br>
+    要留意:<b>股權薪酬(SBC)偏高</b>,GAAP 與 non-GAAP 差距大,需兩套並看;高估值下,現金流成長能否追上股價是關鍵。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Balance Sheet</span><span class="q-title">7 · 能撐過景氣下行嗎?</span></div>
+  <div class="q-hint">大型 IP 商也要看資產負債表。</div>
+  <div class="q-body">
+    資產負債表<span class="g">穩健</span>:淨現金、無重大負債壓力,獲利與 FCF 支撐。IP 模式資本支出輕。<span class="g">抗景氣下行能力強</span>。<br>
+    真正風險不在財務,而在<b>估值</b>——極高倍數對成長放緩非常敏感(見下)。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Competition</span><span class="q-title">8 · 最大競爭者是誰?</span></div>
+  <div class="q-hint">用對手財報交叉驗證你這家的說法。</div>
+  <div class="q-body">
+    直接對手:<b>x86(Intel / AMD)</b>在 PC / 部分伺服器、<b>RISC-V</b>(開源、免權利金)在邊緣與特定領域。IP 生態亦有 Synopsys / Cadence / CEVA / AIP 等(不同環節)。<br>
+    Arm 的優勢在<b>行動與能效領導 + 生態系</b>;資料中心正搶 x86 份額。交叉看客戶(蘋果、高通、NVIDIA)與 RISC-V 進展可驗證護城河。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Catalyst</span><span class="q-title">9 · 未來 12–24 個月的催化劑?</span></div>
+  <div class="q-hint">把催化劑與時點寫下來。</div>
+  <div class="q-body">
+    <ul>
+      <li><b>資料中心 / AI 伺服器 CPU(Neoverse)</b>滲透率提升,搶 x86 份額。</li>
+      <li><b>Armv9 + CSS 滲透</b>持續拉高每顆權利金。</li>
+      <li>客戶<b>自研 AI 晶片</b>採 Arm 架構(NVIDIA、雲端巨頭)。</li>
+      <li>Arm 可能推自研晶片 / 更完整子系統,提高內容價值。</li>
+      <li>約 11 月 Q2 FY27 財報。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Expectations</span><span class="q-title">10 · 股價已經反映什麼?</span></div>
+  <div class="q-hint">Expectations Gap 預期差才是重點。</div>
+  <div class="q-body">
+    市值 ~$290B ÷ 營收 ~$4.9B ≈ <span class="r">約 55–60 倍 P/S</span>,forward P/E 數十倍高檔——<b>市場已把「AI + 資料中心 + 每顆權利金提升」的長期樂觀大幅 price in</b>。<br>
+    自 ATH $439 回落到 ~$280 消化了一部分。<span class="w">預期差:中性</span>——龍頭品質無疑,但估值極高,續漲需要成長「持續超預期」;稍有不如預期,回檔空間大。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Valuation</span><span class="q-title">11 · Bear / Base / Bull 各值多少?</span></div>
+  <div class="q-hint">三情境比單一目標價有意義,詳見下方第 2 區。</div>
+  <div class="q-body">
+    ARM <b>已獲利、但估值極高</b>,用本益比 / P/S 評估都在高檔。核心變數:<b>資料中心份額、每顆權利金、成長是否超預期、估值倍數是否收斂</b>。三情境見下一區(依 8/14 現價校準),對倍數變化極敏感。
+  </div>
+</div>
+
+<div class="q"><div class="q-top"><span class="q-tag">Thesis Break</span><span class="q-title">12 · 什麼事代表我錯了?</span></div>
+  <div class="q-hint">進場前就寫好,跌 40% 後大腦會自動編故事。</div>
+  <div class="q-body">
+    先寫下「認錯訊號」:
+    <ul>
+      <li><span class="r">RISC-V 在資料中心 / 主流領域明顯侵蝕 Arm 份額。</span></li>
+      <li><span class="r">權利金或授權成長明顯放緩、每顆權利金停滯。</span></li>
+      <li>大客戶(蘋果、高通)關係生變或訴訟惡化。</li>
+      <li>資料中心 Neoverse 滲透不如預期。</li>
+      <li>高估值遭遇倍數壓縮 / 多殺多。</li>
+    </ul>
+    觸發任一項就重新檢視論點,不要凹單。
+  </div>
+</div>
+
+<!-- 2 估值 -->
+<div class="sec"><span class="n">2</span>三情境估值 · 機率加權(示意,依 8/14 現價校準)</div>
+<div class="val">
+  <table>
+    <thead><tr><th>情境</th><th>合理價</th><th>機率</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><span class="scn"><span class="dot d-bear"></span>Bear</span></td><td class="price red">$180</td><td class="prob">30%</td><td class="note">估值倍數壓縮 / 成長放緩 / RISC-V 侵蝕。</td></tr>
+      <tr><td><span class="scn"><span class="dot d-base"></span>Base</span></td><td class="price amber">$300</td><td class="prob">40%</td><td class="note">維持 20%+ 成長、資料中心穩步滲透,約當現價。</td></tr>
+      <tr><td><span class="scn"><span class="dot d-bull"></span>Bull</span></td><td class="price green">$400</td><td class="prob">30%</td><td class="note">AI 資料中心大爆發 + 每顆權利金續升,重回高檔。</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="result">
+  <div class="row"><span class="rk">機率合計</span><span class="rv">100%</span></div>
+  <div class="row"><span class="rk">機率加權合理價</span><span class="rv">$294</span></div>
+  <div class="row"><span class="rk">目前股價(8/14)</span><span class="rv">$280</span></div>
+  <div class="row"><span class="rk">預期差(相對加權合理價)</span><span class="rv green">+5.0%</span></div>
+  <div class="row"><span class="rk">報酬風險比(上檔 ÷ 下檔)</span><span class="rv amber">1.20 : 1</span></div>
+</div>
+
+<div class="callout blue">
+  <span class="title">怎麼讀這個結果?</span>
+  加權合理價 $294 略高於現價,上檔(到 Bull $400)+$120、下檔(到 Bear $180)-$100,<b>報酬風險比約 1.20:1</b>。龍頭品質一流,但<b>估值極高</b>——這是「好公司、貴價位」。方向偏多但安全邊際有限,<b>分批、逢明顯回檔再加碼更穩健。</b>
+</div>
+
+<!-- 3 倉位 -->
+<div class="sec"><span class="n">3</span>倉位大小</div>
+<div class="result">
+  <div class="row"><span class="rk">資產負債表能撐過下行?</span><span class="rv green" style="font-size:15px">穩健,淨現金、強 FCF</span></div>
+  <div class="row"><span class="rk">研究信心 / 完成度</span><span class="rv amber" style="font-size:15px">中高(估值風險大)</span></div>
+  <div class="row"><span class="rk">建議部位傾向</span><span class="postag">中 · 一般(分批、勿追高)</span></div>
+</div>
+<div class="callout purple">
+  <b>產業基礎設施級的 IP 龍頭,但估值極高。</b>體質配得上一般部位,唯<b>倍數極高、對成長敏感</b>。建議<b>分批建倉、逢回檔加碼</b>,把它當長期核心 IP 曝險,而非在高檔一次重壓。
+</div>
+
+<!-- 4 資訊來源 -->
+<div class="sec"><span class="n">4</span>資訊來源三級制</div>
+<div class="src">
+  <div class="tier"><div class="th"><span class="b b1">第一級</span><span class="tt">公司官方(先看)</span></div>
+    <div class="bd"><code>10-K</code> <code>10-Q</code> <code>Q1 FY27 Earnings</code> <code>法說 Transcript</code> <code>investors.arm.com</code> —— 盯權利金成長、每顆權利金、資料中心/Armv9 滲透、授權動能。</div></div>
+  <div class="tier"><div class="th"><span class="b b2">第二級</span><span class="tt">產業交叉驗證</span></div>
+    <div class="bd">對照 <code>NVDA</code> <code>QCOM</code> <code>AAPL</code> <code>聯發科</code> 出貨、以及 <code>RISC-V</code> 生態進展、雲端自研晶片動態,判斷 Arm 內容價值與份額走向。</div></div>
+  <div class="tier"><div class="th"><span class="b b3">第三級</span><span class="tt">新聞(更新論點,不是建立論點)</span></div>
+    <div class="bd">看到「客戶訴訟 / 自研晶片 / 新架構」消息先問:有沒有改變權利金 / 份額 / TAM / 估值?ARM 是高估值敘事股,單日常大幅波動,要分辨實質與臆測。</div></div>
+</div>
+
+<div class="callout red" style="margin-top:22px">
+  <span class="title">⚠️ 風險提醒</span>
+  ARM 是<b>估值極高</b>的 IP 龍頭:P/S ~55x+、自 ATH $439 回檔約 36%,對成長放緩與倍數壓縮極敏感;RISC-V 替代、大客戶訴訟、Arm 自研可能與客戶競爭皆為變數。本頁所有價位與機率均為<b>研究流程示意,非目標價、非投資建議</b>;數據以公司最新財報 / SEC 文件為準,參考股價約 $280(2026/08 中,近日於 $270–285 波動)。
+</div>
+
+<div class="footer">
+  一頁研究報告 · ARM(Arm Holdings)易讀版 · 資料截至 2026/08/14<br>
+  框架整理自《你不是缺股票資訊,你是缺一套研究股票的方法》—— 大叔美股筆記<br>
+  資料來源:Arm Q1 FY2027 財報與法說會、SEC 文件、產業研究;即時股價圖由 TradingView 提供<br>
+  本工具僅供個人研究流程管理,不構成投資建議
+</div>
+
+</body>
+</html>
