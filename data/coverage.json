@@ -1,6 +1,6 @@
 {
   "_comment": "美股研究涵蓋清單 · 自動更新排程讀這份來巡檢。新增個股=在對應 sector.stocks 加一筆並依範本建頁;新增類股=加一個 sector 物件與資料夾。",
-  "updated": "2026-08-14",
+  "updated": "2026-08-20",
   "home": "stocks.html",
   "shared_css": "assets/report.css",
   "template": "_template-report.html",
@@ -12,11 +12,11 @@
       "hub": "ai-optics/index.html",
       "compare": "ai-optics/compare-report.html",
       "stocks": [
-        { "ticker": "AEVA", "exchange": "NASDAQ", "company": "Aeva",     "file": "ai-optics/aeva-report.html", "verdict": "接近合理·等待", "position": "小·試探",   "rr": "1.25", "next_earnings": "約 11 月" },
-        { "ticker": "COHR", "exchange": "NYSE",   "company": "Coherent", "file": "ai-optics/cohr-report.html", "verdict": "財報後·報酬轉佳", "position": "中·可分批", "rr": "1.74", "next_earnings": "11/11" },
-        { "ticker": "LITE", "exchange": "NASDAQ", "company": "Lumentum", "file": "ai-optics/lite-report.html", "verdict": "財報強·估值滿", "position": "小·勿追高", "rr": "1.00", "next_earnings": "約 11 月" },
-        { "ticker": "MRVL", "exchange": "NASDAQ", "company": "Marvell",  "file": "ai-optics/mrvl-report.html", "verdict": "漲多·觀望",     "position": "中·一般",   "rr": "1.01", "next_earnings": "8/27" },
-        { "ticker": "AVGO", "exchange": "NASDAQ", "company": "Broadcom", "file": "ai-optics/avgo-report.html", "verdict": "漲多·追高不利", "position": "中·等回檔","rr": "0.85", "next_earnings": "約 9 月初" }
+        { "ticker": "AEVA", "exchange": "NASDAQ", "company": "Aeva",     "file": "ai-optics/aeva-report.html", "verdict": "偏貴·等待",       "position": "小·試探",   "rr": "0.86", "next_earnings": "約 11 月" },
+        { "ticker": "COHR", "exchange": "NYSE",   "company": "Coherent", "file": "ai-optics/cohr-report.html", "verdict": "極便宜·分批承接", "position": "中·分批",   "rr": "7.1",  "next_earnings": "11/11" },
+        { "ticker": "LITE", "exchange": "NASDAQ", "company": "Lumentum", "file": "ai-optics/lite-report.html", "verdict": "估值滿·勿追高",   "position": "小·勿追高", "rr": "1.04", "next_earnings": "約 11 月" },
+        { "ticker": "MRVL", "exchange": "NASDAQ", "company": "Marvell",  "file": "ai-optics/mrvl-report.html", "verdict": "拿下 Google·偏正向", "position": "中·一般", "rr": "1.47", "next_earnings": "8/27" },
+        { "ticker": "AVGO", "exchange": "NASDAQ", "company": "Broadcom", "file": "ai-optics/avgo-report.html", "verdict": "回落轉合理",     "position": "中·分批",  "rr": "1.84", "next_earnings": "約 9 月初" }
       ]
     },
     {
@@ -26,10 +26,10 @@
       "hub": "chip-ip/index.html",
       "compare": "chip-ip/compare-report.html",
       "stocks": [
-        { "ticker": "RMBS", "exchange": "NASDAQ", "company": "Rambus",       "file": "chip-ip/rmbs-report.html", "verdict": "偏正向",       "position": "中·一般", "rr": "1.45", "next_earnings": "約 10–11 月" },
-        { "ticker": "ARM",  "exchange": "NASDAQ", "company": "Arm Holdings",  "file": "chip-ip/arm-report.html",  "verdict": "估值高·分批", "position": "中·一般", "rr": "1.20", "next_earnings": "約 11 月" },
-        { "ticker": "CEVA", "exchange": "NASDAQ", "company": "CEVA",          "file": "chip-ip/ceva-report.html", "verdict": "小型·試探",   "position": "小·試探", "rr": "1.13", "next_earnings": "約 11 月" },
-        { "ticker": "AIP",  "exchange": "NASDAQ", "company": "Arteris",       "file": "chip-ip/aip-report.html",  "verdict": "合理區間·觀望", "position": "小·試探", "rr": "1.07", "next_earnings": "約 11 月" }
+        { "ticker": "RMBS", "exchange": "NASDAQ", "company": "Rambus",       "file": "chip-ip/rmbs-report.html", "verdict": "回檔·偏正向",     "position": "中·一般", "rr": "2.60", "next_earnings": "約 10–11 月" },
+        { "ticker": "ARM",  "exchange": "NASDAQ", "company": "Arm Holdings",  "file": "chip-ip/arm-report.html",  "verdict": "回檔轉佳·分批",   "position": "中·一般", "rr": "2.39", "next_earnings": "約 11 月" },
+        { "ticker": "CEVA", "exchange": "NASDAQ", "company": "CEVA",          "file": "chip-ip/ceva-report.html", "verdict": "小型·試探",       "position": "小·試探", "rr": "1.13", "next_earnings": "約 11 月" },
+        { "ticker": "AIP",  "exchange": "NASDAQ", "company": "Arteris",       "file": "chip-ip/aip-report.html",  "verdict": "合理區間·觀望",   "position": "小·試探", "rr": "1.07", "next_earnings": "約 11 月" }
       ]
     }
   ]
